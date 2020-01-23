@@ -18,8 +18,10 @@ class NoteList extends Component {
     constructor(props) {
         super(props);
 
+        const notes = JSON.parse(localStorage.getItem('notes'));
+
         this.state = {
-            notes: [],
+            notes: notes || [],
             ...initialState
         };
 
@@ -64,8 +66,12 @@ class NoteList extends Component {
             e.stopPropagation();
         } else {
             this.setState(state => {
+                let notes = [state.note, ...state.notes];
+
+                localStorage.setItem('notes', JSON.stringify(notes));
+
                 return {
-                    notes: [state.note, ...state.notes],
+                    notes: notes,
                     ...initialState
                 };
             });
@@ -133,7 +139,7 @@ class NoteList extends Component {
                                     onChange={this.handleChange}
                                     required/>
                             </Form.Group>
-                            <a href="#" onClick={this.handleFaker}>Fake it!</a>
+                            <Button variant="link" className="p-0" onClick={this.handleFaker}>Fake it!</Button>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.hideModal}>Cancel</Button>
