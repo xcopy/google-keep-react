@@ -3,6 +3,7 @@ import Note from './Note';
 import {Row, Col, Button, Modal, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
+import faker from 'faker';
 
 const initialState = {
     modalShown: false,
@@ -26,6 +27,7 @@ class NoteList extends Component {
         this.hideModal = this.hideModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFaker = this.handleFaker.bind(this);
     }
 
     showModal() {
@@ -74,6 +76,17 @@ class NoteList extends Component {
         });
     }
 
+    handleFaker(e) {
+        e.preventDefault();
+
+        this.setState({
+            note: {
+                title: faker.lorem.sentence(),
+                content: faker.lorem.paragraph()
+            }
+        });
+    }
+
     render() {
         const {notes, modalShown, formValidated, note} = this.state;
         const template = notes.map((note, i) =>
@@ -102,24 +115,25 @@ class NoteList extends Component {
                     </Modal.Header>
                     <Form noValidate validated={formValidated} onSubmit={this.handleSubmit}>
                         <Modal.Body>
-                                <Form.Group controlId="note-title">
-                                    <Form.Control
-                                        type="text"
-                                        name="title"
-                                        placeholder="Title"
-                                        value={note.title}
-                                        onChange={this.handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="note-content" className="mb-0">
-                                    <Form.Control
-                                        as="textarea"
-                                        name="content"
-                                        rows="3"
-                                        placeholder="Content"
-                                        value={note.content}
-                                        onChange={this.handleChange}
-                                        required/>
-                                </Form.Group>
+                            <Form.Group controlId="note-title">
+                                <Form.Control
+                                    type="text"
+                                    name="title"
+                                    placeholder="Title"
+                                    value={note.title}
+                                    onChange={this.handleChange}/>
+                            </Form.Group>
+                            <Form.Group controlId="note-content">
+                                <Form.Control
+                                    as="textarea"
+                                    name="content"
+                                    rows="3"
+                                    placeholder="Content"
+                                    value={note.content}
+                                    onChange={this.handleChange}
+                                    required/>
+                            </Form.Group>
+                            <a href="#" onClick={this.handleFaker}>Fake it!</a>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.hideModal}>Cancel</Button>
