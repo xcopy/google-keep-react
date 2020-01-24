@@ -1,0 +1,10 @@
+$enable-responsive-font-sizes: true;
+$body-padding-top: 4.5rem;
+
+body {
+  padding-top: $body-padding-top;
+}
+
+main {
+  min-height: calc(100vh - #{$body-padding-top});
+}

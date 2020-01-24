@@ -5,7 +5,7 @@ import {faCog, faRedo, faTh} from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
     return (
-        <Navbar bg="light justify-content-between">
+        <Navbar fixed="top" bg="light justify-content-between">
             <Navbar.Brand href="#">
                 <div className="d-flex align-items-center">
                     <img src="/logo-40x40.png" width="40" height="40" alt=""/>

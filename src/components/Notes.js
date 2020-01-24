@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
+
+import './Notes.scss';
+
 import Note from './Note';
 import {Row, Col, Button, Modal, Form} from 'react-bootstrap';
+
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
+
 import faker from 'faker';
 
 const initialState = {
@@ -95,22 +100,30 @@ class Notes extends Component {
 
     render() {
         const {notes, modalShown, formValidated, note} = this.state;
+        const title = 'Notes you add appear here';
+        const icon = <FontAwesomeIcon icon={faLightbulb}/>;
         const template = notes.map((note, i) =>
-            <Col lg={3} key={i.toString()}>
+            <Col xl="3" lg="4" md="6" sm="6" key={i.toString()}>
                 <Note note={note}/>
             </Col>
         );
 
         return (
-            <div className="my-5">
+            <>
                 {notes.length ? (
                     <Row>
                         {template}
                     </Row>
                 ) : (
                     <div className="text-black-50 text-center">
-                        <FontAwesomeIcon icon={faLightbulb} size="6x"/>
-                        <h3 className="m-3">Notes you add appear here</h3>
+                        <div className="d-none d-sm-block">
+                            <div className="icon fa-6x">{icon}</div>
+                            <div className="h3 my-3">{title}</div>
+                        </div>
+                        <div className="d-sm-none">
+                            <div className="icon fa-4x">{icon}</div>
+                            <div className="h4 my-3">{title}</div>
+                        </div>
                         <Button variant="outline-secondary" onClick={this.showModal}>Add new one</Button>
                     </div>
                 )}
@@ -147,7 +160,7 @@ class Notes extends Component {
                         </Modal.Footer>
                     </Form>
                 </Modal>
-            </div>
+            </>
         );
     }
 }
