@@ -1,10 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Layout from './Layout';
+import {Container} from 'react-bootstrap';
+import Header from './Header';
+import Notes from './Notes';
 
 function App() {
   return (
-    <Layout/>
+    <div>
+      <Header/>
+      <Container>
+        <Notes/>
+      </Container>
+    </div>
   );
 }
 

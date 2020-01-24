@@ -14,7 +14,7 @@ const initialState = {
     }
 };
 
-class NoteList extends Component {
+class Notes extends Component {
     constructor(props) {
         super(props);
 
@@ -152,4 +152,4 @@ class NoteList extends Component {
     }
 }
 
-export default NoteList;
+export default Notes;
