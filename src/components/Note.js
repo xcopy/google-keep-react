@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
+import './Note.scss';
 
 class Note extends Component {
     render() {
-        const {title, content} = this.props.note;
+        const {title, content} = this.props;
 
         return (
             <Card>
@@ -15,5 +17,10 @@ class Note extends Component {
         );
     }
 }
+
+Note.propTypes = {
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired
+};
 
 export default Note;
