@@ -21,7 +21,7 @@ class Notes extends Component {
 }
 
 Notes.propTypes = {
-    notes: PropTypes.arrayOf(Note)
+    notes: PropTypes.array
 };
 
 export default Notes;
