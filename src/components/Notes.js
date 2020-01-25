@@ -10,8 +10,8 @@ class Notes extends Component {
 
         return (
             <Row>
-                {notes && notes.map((note, i) =>
-                    <Col xl="3" lg="4" md="6" sm="6" key={i.toString()}>
+                {notes && notes.map(note =>
+                    <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
                         <Note {...note}/>
                     </Col>
                 )}

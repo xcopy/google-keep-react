@@ -5,6 +5,7 @@ import 'bootstrap/scss/bootstrap.scss';
 
 import Header from './Header';
 import NotesContainer from '../containers/NotesContainer';
+import AddNote from './AddNote';
 
 function App() {
     return (
@@ -12,6 +13,9 @@ function App() {
             <Header/>
             <main className="p-3 p-xl-5">
                 <NotesContainer/>
+                <div className="text-center m-1">
+                    <AddNote/>
+                </div>
             </main>
         </>
     );

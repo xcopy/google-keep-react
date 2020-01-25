@@ -1,21 +1,10 @@
 import Notes from '../components/Notes';
 import {connect} from 'react-redux';
 
-const mapStateToProps = state => {
-    // shorthand for
-    // return {notes: state.notes}
-    return state;
-};
-
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = store => {
     return {
-        addNote: function (note) {
-            // dispatch(addNote(note));
-        }
+        notes: store.notes
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Notes);
+export default connect(mapStateToProps)(Notes);
