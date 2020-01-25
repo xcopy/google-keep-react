@@ -3,6 +3,8 @@ import React from 'react';
 import './App.scss';
 import 'bootstrap/scss/bootstrap.scss';
 
+import {Navbar} from 'react-bootstrap';
+
 import Header from './Header';
 import NotesContainer from '../containers/NotesContainer';
 import AddNote from './AddNote';
@@ -13,10 +15,10 @@ function App() {
             <Header/>
             <main className="p-3 p-xl-5">
                 <NotesContainer/>
-                <div className="text-center m-1">
-                    <AddNote/>
-                </div>
             </main>
+            <Navbar fixed="bottom" bg="light" className="justify-content-center">
+                <AddNote/>
+            </Navbar>
         </>
     );
 }

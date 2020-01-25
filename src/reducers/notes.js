@@ -3,17 +3,25 @@ import {ADD_NOTE, REMOVE_NOTE} from '../actions/NoteActions';
 const initialState = JSON.parse(localStorage.getItem('notes')) || [];
 
 const notes = (state = initialState, action) => {
+    let notes;
+
     switch (action.type) {
         case ADD_NOTE:
-            return [
+            notes = [
                 action.note,
                 ...state
             ];
+            break;
         case REMOVE_NOTE:
-            return []; // todo
+            notes = []; // todo
+            break;
         default:
-            return state;
+            notes = state;
     }
+
+    localStorage.setItem('notes', JSON.stringify(notes));
+
+    return notes;
 };
 
 export default notes;

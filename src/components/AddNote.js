@@ -1,31 +1,41 @@
 import React, {useState, useRef} from 'react';
+import {connect} from 'react-redux';
 import {Modal, Form, Button} from 'react-bootstrap';
 import faker from 'faker';
+import {addNote} from '../actions/NoteActions';
 
-const AddNote = () => {
+const AddNote = ({dispatch}) => {
     const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
+    const [validated, setValidated] = useState(false);
     const titleInput = useRef(null);
     const contentInput = useRef(null);
 
-    const [validated, setValidated] = useState(false);
+    const handleClose = () => {
+        setShow(false);
+        setValidated(false);
+    };
+
+    const handleShow = () => {
+        setShow(true);
+        setValidated(false);
+    };
 
     const handleSubmit = e => {
         e.persist();
+        e.preventDefault();
 
         const form = e.currentTarget;
-
-        e.preventDefault();
 
         if (!form.checkValidity()) {
             e.stopPropagation();
         } else {
-            // todo: add note
-            console.log(titleInput.current.value);
-            console.log(contentInput.current.value);
+            dispatch(addNote({
+                id: (Math.random() * 10).toString(),
+                title: titleInput.current.value,
+                content: contentInput.current.value
+            }));
+
+            setShow(false);
         }
 
         setValidated(true);
@@ -71,9 +81,9 @@ const AddNote = () => {
                     </Modal.Footer>
                 </Form>
             </Modal>
-            <Button variant="outline-secondary" onClick={handleShow}>Add note</Button>
+            <Button variant="outline-primary" size="lg" onClick={handleShow}>Add note</Button>
         </>
     );
 };
 
-export default AddNote;
+export default connect()(AddNote);

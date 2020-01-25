@@ -8,7 +8,7 @@ class Note extends Component {
         const {title, content} = this.props;
 
         return (
-            <Card>
+            <Card className="mb-3">
                 <Card.Body>
                     <Card.Title>{title}</Card.Title>
                     <Card.Text>{content}</Card.Text>
