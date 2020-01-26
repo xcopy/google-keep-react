@@ -6,13 +6,13 @@ import './Notes.scss';
 
 class Notes extends Component {
     render() {
-        const {notes} = this.props;
+        const {notes, deleteNote, archiveNote} = this.props;
 
         return (
             <Row>
                 {notes && notes.map(note =>
                     <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
-                        <Note {...note}/>
+                        <Note {...note} {...{deleteNote, archiveNote}}/>
                     </Col>
                 )}
             </Row>
