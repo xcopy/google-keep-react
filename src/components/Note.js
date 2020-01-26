@@ -21,7 +21,9 @@ class Note extends Component {
 Note.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired
+    content: PropTypes.string.isRequired,
+    created_at: PropTypes.instanceOf(Date).isRequired,
+    deleted_at: PropTypes.any
 };
 
 export default Note;

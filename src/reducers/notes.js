@@ -7,6 +7,7 @@ const notes = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_NOTE:
+            action.note.created_at = new Date();
             notes = [
                 action.note,
                 ...state
