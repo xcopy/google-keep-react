@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import Truncate from 'react-truncate';
 import './Note.scss';
 
 class Note extends Component {
@@ -15,8 +16,12 @@ class Note extends Component {
                     <Moment fromNow className="small">{created_at}</Moment>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Title>{title}</Card.Title>
-                    <Card.Text>{content}</Card.Text>
+                    <Card.Title>
+                        <Truncate lines={2}>{title}</Truncate>
+                    </Card.Title>
+                    <Card.Text>
+                        <Truncate lines={7}>{content}</Truncate>
+                    </Card.Text>
                 </Card.Body>
             </Card>
         );
