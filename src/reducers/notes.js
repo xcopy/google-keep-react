@@ -7,7 +7,7 @@ const notes = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_NOTE:
-            action.note.created_at = new Date();
+            action.note.created_at = new Date().toISOString();
             notes = [
                 action.note,
                 ...state
