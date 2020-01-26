@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Card} from 'react-bootstrap';
+import {Button, Card, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Truncate from 'react-truncate';
@@ -23,6 +25,22 @@ class Note extends Component {
                         <Truncate lines={7}>{content}</Truncate>
                     </Card.Text>
                 </Card.Body>
+                <Card.Footer className="text-right">
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip id="tooltip-archive">Archive</Tooltip>}>
+                        <Button variant="link" size="sm" className="text-secondary">
+                            <FontAwesomeIcon icon={faArchive}/>
+                        </Button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip id="tooltip-delete">Delete</Tooltip>}>
+                        <Button variant="link" size="sm" className="text-secondary">
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </Button>
+                    </OverlayTrigger>
+                </Card.Footer>
             </Card>
         );
     }
