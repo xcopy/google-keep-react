@@ -7,7 +7,7 @@ import {Navbar} from 'react-bootstrap';
 
 import Header from './Header';
 import NotesContainer from '../containers/NotesContainer';
-import AddNote from './AddNote';
+import AddNote from '../containers/AddNote';
 
 function App() {
     return (
