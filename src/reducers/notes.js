@@ -3,6 +3,7 @@ import {
     DELETE_NOTE,
     ARCHIVE_NOTE
 } from '../actions/NoteActions';
+import md5 from 'md5';
 
 const LOCAL_STORAGE_KEY = 'notes';
 
@@ -27,6 +28,7 @@ const notes = (state = initialState, action) => {
     switch (action.type) {
         case ADD_NOTE: {
             _note = action.note;
+            _note.id = md5(Math.random().toString());
             _note.created_at = new Date().toISOString();
 
             _state.unshift(_note);
