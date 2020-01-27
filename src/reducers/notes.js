@@ -5,25 +5,8 @@ import {
 } from '../actions/NoteActions';
 import md5 from 'md5';
 
-const LOCAL_STORAGE_KEY = 'notes';
-
-/**
- * @param state
- * @returns {*[]}
- */
-const getActualNotes = (state = []) => {
-    return state.filter(note => !note.deleted_at && !note.archived_at);
-};
-
-/**
- * @returns {any | *[]}
- */
-const initialState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-
-const notes = (state = initialState, action) => {
-    let _state = initialState,
-        _note,
-        notes;
+const notes = (state = [], action) => {
+    let _state, _note;
 
     switch (action.type) {
         case ADD_NOTE: {
@@ -31,15 +14,15 @@ const notes = (state = initialState, action) => {
             _note.id = md5(Math.random().toString());
             _note.created_at = new Date().toISOString();
 
-            _state.unshift(_note);
+            _state = [_note, ...state];
 
-            notes = [_note, ...state];
-
-            break;
+            return _state;
         }
         case DELETE_NOTE:
         case ARCHIVE_NOTE: {
             const predicate = note => note.id === action.id;
+
+            _state = [...state];
 
             _note = _state.find(predicate);
             _note[action.key] = new Date().toISOString();
@@ -48,17 +31,11 @@ const notes = (state = initialState, action) => {
 
             _index !== -1 && _state.splice(_index, 1, _note);
 
-            notes = state.filter(note => note.id !== action.id);
-
-            break;
+            return _state;
         }
         default:
-            notes = getActualNotes(state);
+            return state;
     }
-
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(_state));
-
-    return notes;
 };
 
 export default notes;
