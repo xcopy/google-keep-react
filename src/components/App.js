@@ -8,12 +8,20 @@ import {Navbar} from 'react-bootstrap';
 import Header from './Header';
 import NotesContainer from '../containers/NotesContainer';
 import AddNote from '../containers/AddNote';
+import FilterLink from '../containers/FilterLink';
+
+import {Filters} from '../actions/FilterActions';
 
 function App() {
     return (
         <>
             <Header/>
-            <main className="p-3 p-xl-5">
+            <main className="px-3 pb-3 pt-0">
+                <div className="text-center py-3">
+                    <FilterLink filter={Filters.ACTIVE}>Notes</FilterLink>
+                    <FilterLink filter={Filters.ARCHIVED}>Archive</FilterLink>
+                    <FilterLink filter={Filters.DELETED}>Trash</FilterLink>
+                </div>
                 <NotesContainer/>
             </main>
             <Navbar fixed="bottom" bg="light" className="justify-content-center">
