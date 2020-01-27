@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {createStore} from 'redux';
+import logger from 'redux-logger';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
 import App from './components/App';
@@ -9,7 +10,10 @@ import rootReducer from './reducers'
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(rootReducer);
+const store = createStore(
+    rootReducer,
+    applyMiddleware(logger)
+);
 
 render(
     <Provider store={store}>
