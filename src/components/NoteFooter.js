@@ -12,16 +12,33 @@ import {
     faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
-const NoteFooter = ({id, deleteNote, archiveNote}) => {
+import {Filters} from '../actions/FilterActions';
+
+const NoteFooter = ({id, deleteNote, archiveNote, filter}) => {
+    const active = filter === Filters.ACTIVE,
+        archived = filter === Filters.ARCHIVED,
+        deleted = filter === Filters.DELETED;
+
     return (
-        <Card.Footer className="text-right">
-            <Button variant="link" size="sm" className="text-secondary" title="Archive"
-                onClick={() => archiveNote(id)}>
-                <FontAwesomeIcon icon={faCaretSquareDown}/>
-            </Button>
-            <Button variant="link" size="sm" className="text-secondary" title="Delete"
-                onClick={() => deleteNote(id)}>
-                <FontAwesomeIcon icon={faTrash}/>
+        <Card.Footer className="text-right p-2">
+            {deleted || (
+                <Button variant="link" className="text-secondary"
+                    title={active ? 'Archive' : 'Unarchive'}
+                    onClick={() => archiveNote(id, archived)}>
+                    <FontAwesomeIcon icon={active ? faCaretSquareDown : faCaretSquareUp}/>
+                </Button>
+            )}
+            {deleted && (
+                <Button variant="link" className="text-secondary"
+                    title="Delete forever"
+                    onClick={() => {}}>
+                    <FontAwesomeIcon icon={faTimesCircle}/>
+                </Button>
+            )}
+            <Button variant="link" className="text-secondary"
+                title={deleted ? 'Restore' : 'Delete'}
+                onClick={() => deleteNote(id, deleted)}>
+                <FontAwesomeIcon icon={deleted ? faTrashRestore : faTrash}/>
             </Button>
         </Card.Footer>
     );
@@ -30,7 +47,8 @@ const NoteFooter = ({id, deleteNote, archiveNote}) => {
 NoteFooter.propTypes = {
     id: PropTypes.string.isRequired,
     deleteNote: PropTypes.func.isRequired,
-    archiveNote: PropTypes.func.isRequired
+    archiveNote: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired
 };
 
 export default NoteFooter;

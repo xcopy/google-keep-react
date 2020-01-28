@@ -29,8 +29,8 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    deleteNote: id => dispatch(deleteNote(id)),
-    archiveNote: id => dispatch(archiveNote(id))
+    deleteNote: (id, restore) => dispatch(deleteNote(id, restore)),
+    archiveNote: (id, restore) => dispatch(archiveNote(id, restore))
 });
 
 export default connect(

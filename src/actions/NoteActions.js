@@ -11,13 +11,11 @@ export const addNote = note => ({
 export const deleteNote = (id, restore = false) => ({
     type: DELETE_NOTE,
     id,
-    key: 'deleted_at',
     restore
 });
 
 export const archiveNote = (id, restore = false) => ({
     type: ARCHIVE_NOTE,
     id,
-    key: 'archived_at',
     restore
 });
