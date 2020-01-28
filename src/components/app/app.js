@@ -1,16 +1,16 @@
 import React from 'react';
 
-import './App.scss';
-import 'bootstrap/scss/bootstrap.scss';
-
 import {Navbar} from 'react-bootstrap';
 
-import Header from './header';
-import FilterLinks from './filter-links';
-import NotesContainer from './notes/notes-container';
-import NoteForm from './note-form/note-form-container';
+import Header from '../header';
+import FilterLinks from '../filter-links';
+import NotesContainer from '../notes/notes-container';
+import NoteForm from '../note-form/note-form-container';
 
-function App() {
+import 'bootstrap/scss/bootstrap.scss';
+import './app.scss';
+
+const App = () => {
     return (
         <>
             <Header/>
@@ -23,6 +23,6 @@ function App() {
             </Navbar>
         </>
     );
-}
+};
 
 export default App;
