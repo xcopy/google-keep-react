@@ -1,6 +1,11 @@
 import NotesView from './notes-view';
 import {connect} from 'react-redux';
-import {deleteNote, archiveNote, deleteNoteForever} from '../../actions/note-actions';
+import {
+    getNotes,
+    deleteNote,
+    archiveNote,
+    deleteNoteForever
+} from '../../actions/note-actions';
 import {Filters} from '../../actions/filter-actions';
 
 /**
@@ -8,14 +13,14 @@ import {Filters} from '../../actions/filter-actions';
  * @param {string} filter
  * @returns {[]}
  */
-const getNotes = ({notes, filter}) => {
+const filterNotes = ({notes, filter}) => {
     switch (filter) {
         case Filters.ACTIVE:
-            return notes.filter(note => !note.deleted_at && !note.archived_at);
+            return notes.filter(note => !note.isDeleted && !note.isArchived);
         case Filters.ARCHIVED:
-            return notes.filter(note => !!note.archived_at);
+            return notes.filter(note => note.isArchived);
         case Filters.DELETED:
-            return notes.filter(note => !!note.deleted_at);
+            return notes.filter(note => note.isDeleted);
         default:
             throw new Error('Unknown filter: ' + filter);
     }
@@ -23,12 +28,13 @@ const getNotes = ({notes, filter}) => {
 
 const mapStateToProps = state => {
     return {
-        notes: getNotes({...state}),
+        notes: filterNotes({...state}),
         filter: state.filter
     };
 };
 
 const mapDispatchToProps = {
+    getNotes,
     deleteNote,
     archiveNote,
     deleteNoteForever

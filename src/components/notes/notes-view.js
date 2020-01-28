@@ -9,6 +9,11 @@ import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
 import './notes.scss';
 
 class NotesView extends Component {
+    componentDidMount() {
+        const {getNotes} = this.props;
+        getNotes();
+    }
+
     render() {
         const {
             notes, filter,
