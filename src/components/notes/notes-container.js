@@ -1,7 +1,7 @@
-import Notes from '../components/Notes';
+import NotesView from './notes-view';
 import {connect} from 'react-redux';
-import {deleteNote, archiveNote, deleteNoteForever} from '../actions/NoteActions';
-import {Filters} from '../actions/FilterActions';
+import {deleteNote, archiveNote, deleteNoteForever} from '../../actions/NoteActions';
+import {Filters} from '../../actions/FilterActions';
 
 /**
  * @param {[]} notes
@@ -37,4 +37,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Notes);
+)(NotesView);

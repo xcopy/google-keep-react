@@ -7,7 +7,7 @@ import {Navbar} from 'react-bootstrap';
 
 import Header from './header';
 import FilterLinks from './filter-links';
-import NotesContainer from '../containers/NotesContainer';
+import NotesContainer from './notes/notes-container';
 import NoteForm from './note-form/note-form-container';
 
 function App() {

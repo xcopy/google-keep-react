@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import NoteView from './note/note-view';
-import {Filters} from '../actions/FilterActions';
+import NoteView from '../note/note-view';
+import {Filters} from '../../actions/FilterActions';
 import {Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
-import './Notes.scss';
+import './notes.scss';
 
-class Notes extends Component {
+class NotesView extends Component {
     render() {
         const {
             notes, filter,
@@ -54,7 +54,7 @@ class Notes extends Component {
     }
 }
 
-Notes.propTypes = {
+NotesView.propTypes = {
     notes: PropTypes.array,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
@@ -62,4 +62,4 @@ Notes.propTypes = {
     filter: PropTypes.string.isRequired
 };
 
-export default Notes;
+export default NotesView;
