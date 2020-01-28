@@ -15,12 +15,6 @@ class Notes extends Component {
             deleteNote, archiveNote, deleteNoteForever
         } = this.props;
 
-        let icons = {};
-
-        icons[Filters.ACTIVE] = faLightbulb;
-        icons[Filters.ARCHIVED] = faArchive;
-        icons[Filters.DELETED] = faTrash;
-
         return (
             notes.length ? (
                 <Row>
@@ -35,7 +29,11 @@ class Notes extends Component {
                 </Row>
             ) : (
                 <div className="text-center text-muted mt-5">
-                    <FontAwesomeIcon icon={icons[filter]} size="6x"/>
+                    <FontAwesomeIcon icon={{
+                        [Filters.ACTIVE]: faLightbulb,
+                        [Filters.ARCHIVED]: faArchive,
+                        [Filters.DELETED]: faTrash
+                    }[filter]} size="6x"/>
                     <h4 className="mt-3 mb-0">
                         {(() => {
                             switch (filter) {
