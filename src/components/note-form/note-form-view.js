@@ -1,10 +1,8 @@
-import React, {useState, useRef} from 'react';
-import {connect} from 'react-redux';
-import {Modal, Form, Button} from 'react-bootstrap';
+import React, {useRef, useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
 import faker from 'faker';
-import {addNote} from '../actions/NoteActions';
 
-const AddNote = ({dispatch}) => {
+const NoteFormView = ({addNote}) => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const titleInput = useRef(null);
@@ -29,10 +27,10 @@ const AddNote = ({dispatch}) => {
         if (!form.checkValidity()) {
             e.stopPropagation();
         } else {
-            dispatch(addNote({
+            addNote({
                 title: titleInput.current.value,
                 content: contentInput.current.value
-            }));
+            });
 
             setShow(false);
         }
@@ -85,4 +83,4 @@ const AddNote = ({dispatch}) => {
     );
 };
 
-export default connect()(AddNote);
+export default NoteFormView;

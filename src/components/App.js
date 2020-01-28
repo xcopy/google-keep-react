@@ -8,7 +8,7 @@ import {Navbar} from 'react-bootstrap';
 import Header from './Header';
 import FilterLinks from './FilterLinks';
 import NotesContainer from '../containers/NotesContainer';
-import AddNote from '../containers/AddNote';
+import NoteForm from './note-form/note-form-container';
 
 function App() {
     return (
@@ -19,7 +19,7 @@ function App() {
                 <NotesContainer/>
             </main>
             <Navbar fixed="bottom" bg="light" className="justify-content-center">
-                <AddNote/>
+                <NoteForm/>
             </Navbar>
         </>
     );
