@@ -30,7 +30,6 @@ const AddNote = ({dispatch}) => {
             e.stopPropagation();
         } else {
             dispatch(addNote({
-                id: (Math.random() * 10).toString(),
                 title: titleInput.current.value,
                 content: contentInput.current.value
             }));

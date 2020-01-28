@@ -1,6 +1,5 @@
 import Notes from '../components/Notes';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {deleteNote, archiveNote, deleteNoteForever} from '../actions/NoteActions';
 import {Filters} from '../actions/FilterActions';
 
@@ -22,18 +21,18 @@ const getNotes = ({notes, filter}) => {
     }
 };
 
-const mapStateToProps = store => {
+const mapStateToProps = state => {
     return {
-        notes: getNotes({...store}),
-        filter: store.filter
+        notes: getNotes({...state}),
+        filter: state.filter
     };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = {
     deleteNote,
     archiveNote,
     deleteNoteForever
-}, dispatch);
+};
 
 export default connect(
     mapStateToProps,
