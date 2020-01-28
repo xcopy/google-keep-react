@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import {Card} from 'react-bootstrap';
 
-import NoteHeader from './NoteHeader';
-import NoteBody from './NoteBody';
-import NoteFooter from './NoteFooter';
+import NoteHeader from '../note-header';
+import NoteBody from '../note-body';
+import NoteFooter from '../note-footer';
 
-import './Note.scss';
+import './note.scss';
 
-class Note extends Component {
+class NoteView extends Component {
     render() {
         const {
             id, title, content, created_at,
@@ -27,7 +27,7 @@ class Note extends Component {
     }
 }
 
-Note.propTypes = {
+NoteView.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -40,4 +40,4 @@ Note.propTypes = {
     filter: PropTypes.string.isRequired
 };
 
-export default Note;
+export default NoteView;

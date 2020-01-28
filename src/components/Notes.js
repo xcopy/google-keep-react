@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Note from './Note';
+import NoteView from './note/note-view';
 import {Filters} from '../actions/FilterActions';
 import {Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -20,7 +20,7 @@ class Notes extends Component {
                 <Row>
                     {notes.map(note =>
                         <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
-                            <Note
+                            <NoteView
                                 {...note}
                                 {...{deleteNote, archiveNote, deleteNoteForever}}
                                 filter={filter}/>
