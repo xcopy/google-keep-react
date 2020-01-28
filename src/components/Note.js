@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Row, Col, Button, Card, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Row, Col, Button, Card} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark, faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
@@ -24,13 +24,9 @@ class Note extends Component {
                                 <Moment fromNow>{created_at}</Moment>
                             </Col>
                             <Col className="text-right">
-                                <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={<Tooltip id="tooltip-pin">Pin note</Tooltip>}>
-                                    <Button variant="link" size="sm" className="text-secondary">
-                                        <FontAwesomeIcon icon={faBookmark}/>
-                                    </Button>
-                                </OverlayTrigger>
+                                <Button variant="link" size="sm" className="text-secondary" title="Pin note">
+                                    <FontAwesomeIcon icon={faBookmark}/>
+                                </Button>
                             </Col>
                         </Row>
                     </div>
@@ -42,22 +38,14 @@ class Note extends Component {
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer className="text-right">
-                    <OverlayTrigger
-                        placement="bottom"
-                        overlay={<Tooltip id="tooltip-archive">Archive</Tooltip>}>
-                        <Button variant="link" size="sm" className="text-secondary"
-                            onClick={() => archiveNote(id)}>
-                            <FontAwesomeIcon icon={faArchive}/>
-                        </Button>
-                    </OverlayTrigger>
-                    <OverlayTrigger
-                        placement="bottom"
-                        overlay={<Tooltip id="tooltip-delete">Delete</Tooltip>}>
-                        <Button variant="link" size="sm" className="text-secondary"
-                            onClick={() => deleteNote(id)}>
-                            <FontAwesomeIcon icon={faTrash}/>
-                        </Button>
-                    </OverlayTrigger>
+                    <Button variant="link" size="sm" className="text-secondary" title="Archive"
+                        onClick={() => archiveNote(id)}>
+                        <FontAwesomeIcon icon={faArchive}/>
+                    </Button>
+                    <Button variant="link" size="sm" className="text-secondary" title="Delete"
+                        onClick={() => deleteNote(id)}>
+                        <FontAwesomeIcon icon={faTrash}/>
+                    </Button>
                 </Card.Footer>
             </Card>
         );
