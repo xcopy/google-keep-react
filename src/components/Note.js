@@ -13,7 +13,7 @@ class Note extends Component {
     render() {
         const {
             id, title, content, created_at,
-            deleteNote, archiveNote,
+            deleteNote, archiveNote, deleteNoteForever,
             filter
         } = this.props;
 
@@ -21,7 +21,7 @@ class Note extends Component {
             <Card className="mb-3">
                 <NoteHeader {...{created_at, filter}}/>
                 <NoteBody {...{title, content}}/>
-                <NoteFooter {...{id, deleteNote, archiveNote, filter}}/>
+                <NoteFooter {...{id, deleteNote, archiveNote, deleteNoteForever, filter}}/>
             </Card>
         );
     }
@@ -36,6 +36,7 @@ Note.propTypes = {
     archived_at: PropTypes.any,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
+    deleteNoteForever: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired
 };
 

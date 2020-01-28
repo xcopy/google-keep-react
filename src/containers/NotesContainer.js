@@ -1,6 +1,6 @@
 import Notes from '../components/Notes';
 import {connect} from 'react-redux';
-import {deleteNote, archiveNote} from '../actions/NoteActions';
+import {deleteNote, archiveNote, deleteNoteForever} from '../actions/NoteActions';
 import {Filters} from '../actions/FilterActions';
 
 /**
@@ -30,7 +30,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => ({
     deleteNote: (id, restore) => dispatch(deleteNote(id, restore)),
-    archiveNote: (id, restore) => dispatch(archiveNote(id, restore))
+    archiveNote: (id, restore) => dispatch(archiveNote(id, restore)),
+    deleteNoteForever: (id) => dispatch(deleteNoteForever(id))
 });
 
 export default connect(

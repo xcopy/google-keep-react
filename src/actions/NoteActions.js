@@ -19,3 +19,8 @@ export const archiveNote = (id, restore = false) => ({
     id,
     restore
 });
+
+export const deleteNoteForever = id => ({
+    type: DELETE_NOTE_FOREVER,
+    id
+});

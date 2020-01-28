@@ -14,7 +14,7 @@ import {
 
 import {Filters} from '../actions/FilterActions';
 
-const NoteFooter = ({id, deleteNote, archiveNote, filter}) => {
+const NoteFooter = ({id, deleteNote, archiveNote, deleteNoteForever, filter}) => {
     const active = filter === Filters.ACTIVE,
         archived = filter === Filters.ARCHIVED,
         deleted = filter === Filters.DELETED;
@@ -31,7 +31,7 @@ const NoteFooter = ({id, deleteNote, archiveNote, filter}) => {
             {deleted && (
                 <Button variant="link" className="text-secondary"
                     title="Delete forever"
-                    onClick={() => {}}>
+                    onClick={() => deleteNoteForever(id)}>
                     <FontAwesomeIcon icon={faTimesCircle}/>
                 </Button>
             )}
@@ -48,6 +48,7 @@ NoteFooter.propTypes = {
     id: PropTypes.string.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
+    deleteNoteForever: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired
 };
 

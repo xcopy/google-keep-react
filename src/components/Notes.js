@@ -10,7 +10,11 @@ import './Notes.scss';
 
 class Notes extends Component {
     render() {
-        const {notes, filter, deleteNote, archiveNote} = this.props;
+        const {
+            notes, filter,
+            deleteNote, archiveNote, deleteNoteForever
+        } = this.props;
+
         let icons = {};
 
         icons[Filters.ACTIVE] = faLightbulb;
@@ -24,7 +28,7 @@ class Notes extends Component {
                         <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
                             <Note
                                 {...note}
-                                {...{deleteNote, archiveNote}}
+                                {...{deleteNote, archiveNote, deleteNoteForever}}
                                 filter={filter}/>
                         </Col>
                     )}
@@ -56,6 +60,7 @@ Notes.propTypes = {
     notes: PropTypes.array,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
+    deleteNoteForever: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired
 };
 

@@ -44,11 +44,9 @@ const notes = (state = [], action) => {
             return moveNote(state, action, 'archived_at', 'deleted_at');
         }
         case DELETE_NOTE_FOREVER: {
-            const predicate = note => note.id === action.id;
-
             _state = [...state];
 
-            const _index = _state.findIndex(predicate);
+            const _index = _state.findIndex(note => note.id === action.id);
 
             _index !== -1 && _state.splice(_index, 1);
 
