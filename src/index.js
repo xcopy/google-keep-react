@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
@@ -12,7 +13,7 @@ import * as serviceWorker from './serviceWorker';
 
 const store = createStore(
     rootReducer,
-    applyMiddleware(logger)
+    applyMiddleware(logger, thunk)
 );
 
 render(
