@@ -6,7 +6,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import {Navbar} from 'react-bootstrap';
 
 import Header from './Header';
-import FilterLinks from './FilterLinks';
+import FilterLinks from './filter-links';
 import NotesContainer from '../containers/NotesContainer';
 import NoteForm from './note-form/note-form-container';
 

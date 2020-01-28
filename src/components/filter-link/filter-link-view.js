@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'react-bootstrap';
 
-const Link = ({active, children, onClick}) => {
+const FilterLinkView = ({active, children, onClick}) => {
     return (
         <Button
             variant="outline-secondary"
@@ -13,10 +13,10 @@ const Link = ({active, children, onClick}) => {
     );
 };
 
-Link.propTypes = {
+FilterLinkView.propTypes = {
     active: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired
 };
 
-export default Link;
+export default FilterLinkView;

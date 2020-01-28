@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
-import {setFilter} from '../actions/FilterActions'
-import Link from '../components/Link'
+import {setFilter} from '../../actions/FilterActions'
+import FilterLinkView from './filter-link-view'
 
 const mapStateToProps = (store, ownProps) => ({
     active: ownProps.filter === store.filter
@@ -13,4 +13,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Link);
+)(FilterLinkView);
