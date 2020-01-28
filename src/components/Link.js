@@ -5,8 +5,8 @@ import {Button} from 'react-bootstrap';
 const Link = ({active, children, onClick}) => {
     return (
         <Button
-            variant="link"
-            className={active ? 'active' : ''}
+            variant="outline-secondary"
+            active={active}
             onClick={onClick}>
             {children}
         </Button>

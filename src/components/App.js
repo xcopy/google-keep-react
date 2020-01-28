@@ -3,7 +3,7 @@ import React from 'react';
 import './App.scss';
 import 'bootstrap/scss/bootstrap.scss';
 
-import {Navbar} from 'react-bootstrap';
+import {ButtonGroup, Navbar} from 'react-bootstrap';
 
 import Header from './Header';
 import NotesContainer from '../containers/NotesContainer';
@@ -18,9 +18,11 @@ function App() {
             <Header/>
             <main className="px-3 pb-3 pt-0">
                 <div className="text-center py-3">
-                    <FilterLink filter={Filters.ACTIVE}>Notes</FilterLink>
-                    <FilterLink filter={Filters.ARCHIVED}>Archive</FilterLink>
-                    <FilterLink filter={Filters.DELETED}>Trash</FilterLink>
+                    <ButtonGroup>
+                        <FilterLink filter={Filters.ACTIVE}>Notes</FilterLink>
+                        <FilterLink filter={Filters.ARCHIVED}>Archive</FilterLink>
+                        <FilterLink filter={Filters.DELETED}>Trash</FilterLink>
+                    </ButtonGroup>
                 </div>
                 <NotesContainer/>
             </main>
