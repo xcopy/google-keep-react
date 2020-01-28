@@ -17,19 +17,19 @@ class Note extends Component {
 
         return (
             <Card className="mb-3">
+                <Card.Header className="bg-white border-bottom-0 pb-0">
+                    <Row className="small text-muted">
+                        <Col>
+                            <Moment fromNow>{created_at}</Moment>
+                        </Col>
+                        <Col className="text-right">
+                            <Button variant="link" size="sm" className="text-secondary" title="Pin note">
+                                <FontAwesomeIcon icon={faBookmark}/>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card.Header>
                 <Card.Body>
-                    <div className="mb-2 small text-muted">
-                        <Row>
-                            <Col>
-                                <Moment fromNow>{created_at}</Moment>
-                            </Col>
-                            <Col className="text-right">
-                                <Button variant="link" size="sm" className="text-secondary" title="Pin note">
-                                    <FontAwesomeIcon icon={faBookmark}/>
-                                </Button>
-                            </Col>
-                        </Row>
-                    </div>
                     <Card.Title>
                         <Truncate lines={2}>{title}</Truncate>
                     </Card.Title>
