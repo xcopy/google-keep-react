@@ -22,7 +22,10 @@ class Notes extends Component {
                 <Row>
                     {notes.map(note =>
                         <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
-                            <Note {...note} {...{deleteNote, archiveNote}}/>
+                            <Note
+                                {...note}
+                                {...{deleteNote, archiveNote}}
+                                filter={filter}/>
                         </Col>
                     )}
                 </Row>
@@ -50,7 +53,10 @@ class Notes extends Component {
 }
 
 Notes.propTypes = {
-    notes: PropTypes.array
+    notes: PropTypes.array,
+    deleteNote: PropTypes.func.isRequired,
+    archiveNote: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired
 };
 
 export default Notes;

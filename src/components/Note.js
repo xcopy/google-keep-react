@@ -58,7 +58,9 @@ Note.propTypes = {
     content: PropTypes.string.isRequired,
     created_at: PropTypes.string.isRequired,
     deleted_at: PropTypes.any,
-    archived_at: PropTypes.any
+    archived_at: PropTypes.any,
+    deleteNote: PropTypes.func.isRequired,
+    archiveNote: PropTypes.func.isRequired
 };
 
 export default Note;
