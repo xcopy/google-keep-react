@@ -1,7 +1,7 @@
 import React from 'react';
 import {ButtonGroup} from 'react-bootstrap';
 import FilterLink from './filter-link/filter-link-container';
-import {Filters} from '../actions/FilterActions';
+import {Filters} from '../actions/filter-actions';
 
 const FilterLinks = () => {
     return (

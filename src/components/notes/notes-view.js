@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import NoteView from '../note/note-view';
-import {Filters} from '../../actions/FilterActions';
+import {Filters} from '../../actions/filter-actions';
 import {Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';

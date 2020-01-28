@@ -1,5 +1,5 @@
 import NoteFormView from './note-form-view';
-import {addNote} from '../../actions/NoteActions';
+import {addNote} from '../../actions/note-actions';
 import {connect} from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({

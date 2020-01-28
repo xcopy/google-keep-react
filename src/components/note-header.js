@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 // import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 
-import {Filters} from '../actions/FilterActions';
+import {Filters} from '../actions/filter-actions';
 
 const NoteHeader = ({created_at, filter}) => {
     return (

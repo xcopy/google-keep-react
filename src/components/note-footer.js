@@ -12,7 +12,7 @@ import {
     faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
-import {Filters} from '../actions/FilterActions';
+import {Filters} from '../actions/filter-actions';
 
 const NoteFooter = ({id, deleteNote, archiveNote, deleteNoteForever, filter}) => {
     const active = filter === Filters.ACTIVE,

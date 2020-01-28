@@ -1,7 +1,7 @@
 import NotesView from './notes-view';
 import {connect} from 'react-redux';
-import {deleteNote, archiveNote, deleteNoteForever} from '../../actions/NoteActions';
-import {Filters} from '../../actions/FilterActions';
+import {deleteNote, archiveNote, deleteNoteForever} from '../../actions/note-actions';
+import {Filters} from '../../actions/filter-actions';
 
 /**
  * @param {[]} notes

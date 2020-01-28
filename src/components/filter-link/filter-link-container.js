@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {setFilter} from '../../actions/FilterActions'
+import {setFilter} from '../../actions/filter-actions'
 import FilterLinkView from './filter-link-view'
 
 const mapStateToProps = (store, ownProps) => ({

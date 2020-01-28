@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
-import notes from './notes';
-import filter from './filter';
+import notesReducer from './notes-reducer';
+import filterReducer from './filter-reducer';
 
 export default combineReducers({
-    notes,
-    filter
+    notes: notesReducer,
+    filter: filterReducer
 });

@@ -3,7 +3,7 @@ import {
     DELETE_NOTE,
     DELETE_NOTE_FOREVER,
     ARCHIVE_NOTE
-} from '../actions/NoteActions';
+} from '../actions/note-actions';
 import md5 from 'md5';
 
 const moveNote = (state, action, keyToSetup, keyToReset) => {
@@ -23,7 +23,7 @@ const moveNote = (state, action, keyToSetup, keyToReset) => {
     return _state;
 };
 
-const notes = (state = [], action) => {
+const notesReducer = (state = [], action) => {
     let _state, _note;
 
     switch (action.type) {
@@ -57,4 +57,4 @@ const notes = (state = [], action) => {
     }
 };
 
-export default notes;
+export default notesReducer;
