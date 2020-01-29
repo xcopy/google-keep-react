@@ -10,6 +10,12 @@ import NoteFooter from '../note-footer';
 import './note.scss';
 
 class NoteView extends Component {
+    /* todo
+    componentDidMount() {
+        this.container.setAttribute('style', `height: ${this.container.offsetWidth}px`);
+    }
+    */
+
     render() {
         const {
             id, title, content, created_at,
@@ -18,7 +24,7 @@ class NoteView extends Component {
         } = this.props;
 
         return (
-            <Card className="mb-3">
+            <Card className="mb-3"/*ref={el => (this.container = el)}*/>
                 <NoteHeader {...{
                     id, created_at,
                     isDeleted, isArchived, isPinned,
