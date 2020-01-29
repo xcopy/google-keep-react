@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import NoteView from '../note/note-view';
 import {Filters} from '../../actions/filter-actions';
-import {Row, Col} from 'react-bootstrap';
+import {Layouts} from '../../actions/layout-actions';
+import {Container, Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -36,18 +37,34 @@ class NotesView extends Component {
 
     render() {
         const {
-            notes, filter,
+            notes, filter, layout,
             deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
         const row = (notes) => {
+            const isGrid = layout === Layouts.GRID;
+            const xl = {
+                span: isGrid ? 3 : 8,
+                offset: isGrid ? 0 : 2
+            }, lg = {
+                span: isGrid ? 4 : xl.span,
+                offset: xl.offset
+            }, md = {
+                span: isGrid ? 6 : xl.span,
+                offset: xl.offset
+            }, sm = {
+                span: isGrid ? 6 : 12,
+                offset: 0
+            };
+
             return (
                 <Row>
                     {notes.map(note =>
-                        <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
+                        <Col xl={xl} lg={lg} md={md} sm={sm} key={note.id}>
                             <NoteView
                                 {...note}
-                                {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}/>
+                                {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}
+                                layout={layout}/>
                         </Col>
                     )}
                 </Row>
@@ -62,7 +79,7 @@ class NotesView extends Component {
 
         return (
             notes.length ? (
-                <>
+                <Container>
                     {pinnedNotes.length ? (
                         <>
                             {rowTitle('Pinned')}
@@ -80,7 +97,7 @@ class NotesView extends Component {
                             {row(notes)}
                         </>
                     )}
-                </>
+                </Container>
             ) : (
                 <div className="text-center text-muted mt-5">
                     <FontAwesomeIcon icon={{
@@ -110,11 +127,12 @@ class NotesView extends Component {
 
 NotesView.propTypes = {
     notes: PropTypes.array,
+    filter: PropTypes.string.isRequired,
+    layout: PropTypes.string.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
-    pinNote: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired
+    pinNote: PropTypes.func.isRequired
 };
 
 export default NotesView;

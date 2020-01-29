@@ -30,7 +30,8 @@ const filterNotes = ({notes, filter}) => {
 const mapStateToProps = state => {
     return {
         notes: filterNotes({...state}),
-        filter: state.filter
+        filter: state.filter,
+        layout: state.layout
     };
 };
 

@@ -20,7 +20,8 @@ class NoteView extends Component {
         const {
             id, title, content, created_at,
             isDeleted, isArchived, isPinned,
-            deleteNote, archiveNote, deleteNoteForever, pinNote
+            deleteNote, archiveNote, deleteNoteForever, pinNote,
+            layout
         } = this.props;
 
         return (
@@ -29,7 +30,7 @@ class NoteView extends Component {
                     id, created_at,
                     isDeleted, isArchived, isPinned,
                     pinNote}}/>
-                <NoteBody {...{title, content}}/>
+                <NoteBody {...{title, content, layout}}/>
                 <NoteFooter {...{
                     id,
                     isDeleted, isArchived,
@@ -50,7 +51,8 @@ NoteView.propTypes = {
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
-    pinNote: PropTypes.func.isRequired
+    pinNote: PropTypes.func.isRequired,
+    layout: PropTypes.string.isRequired
 };
 
 export default NoteView;
