@@ -4,7 +4,7 @@ import Truncate from 'react-truncate';
 
 const NoteBody = ({title, content}) => {
     return (
-        <Card.Body>
+        <Card.Body className="pt-0">
             <Card.Title>
                 <Truncate lines={2}>{title}</Truncate>
             </Card.Title>

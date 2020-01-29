@@ -12,33 +12,29 @@ import {
     faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
-import {Filters} from '../actions/filter-actions';
-
-const NoteFooter = ({id, deleteNote, archiveNote, deleteNoteForever, filter}) => {
-    const active = filter === Filters.ACTIVE,
-        archived = filter === Filters.ARCHIVED,
-        deleted = filter === Filters.DELETED;
+const NoteFooter = ({id, isDeleted, isArchived, deleteNote, archiveNote, deleteNoteForever}) => {
+    const isActive = !isDeleted && !isArchived;
 
     return (
-        <Card.Footer className="text-right p-2">
-            {deleted || (
-                <Button variant="link" className="text-secondary"
-                    title={active ? 'Archive' : 'Unarchive'}
-                    onClick={() => archiveNote(id, archived)}>
-                    <FontAwesomeIcon icon={active ? faCaretSquareDown : faCaretSquareUp}/>
+        <Card.Footer className="text-right">
+            {isDeleted || (
+                <Button variant="link" className="text-secondary py-0"
+                    title={isActive ? 'Archive' : 'Unarchive'}
+                    onClick={() => archiveNote(id, isArchived)}>
+                    <FontAwesomeIcon icon={isActive ? faCaretSquareDown : faCaretSquareUp}/>
                 </Button>
             )}
-            {deleted && (
-                <Button variant="link" className="text-secondary"
+            {isDeleted && (
+                <Button variant="link" className="text-secondary py-0"
                     title="Delete forever"
                     onClick={() => deleteNoteForever(id)}>
                     <FontAwesomeIcon icon={faTimesCircle}/>
                 </Button>
             )}
-            <Button variant="link" className="text-secondary"
-                title={deleted ? 'Restore' : 'Delete'}
-                onClick={() => deleteNote(id, deleted)}>
-                <FontAwesomeIcon icon={deleted ? faTrashRestore : faTrash}/>
+            <Button variant="link" className="text-secondary py-0 pr-0"
+                title={isDeleted ? 'Restore' : 'Delete'}
+                onClick={() => deleteNote(id, isDeleted)}>
+                <FontAwesomeIcon icon={isDeleted ? faTrashRestore : faTrash}/>
             </Button>
         </Card.Footer>
     );
@@ -46,10 +42,11 @@ const NoteFooter = ({id, deleteNote, archiveNote, deleteNoteForever, filter}) =>
 
 NoteFooter.propTypes = {
     id: PropTypes.string.isRequired,
+    isDeleted: PropTypes.bool.isRequired,
+    isArchived: PropTypes.bool.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
-    deleteNoteForever: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired
+    deleteNoteForever: PropTypes.func.isRequired
 };
 
 export default NoteFooter;

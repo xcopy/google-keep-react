@@ -13,15 +13,18 @@ class NoteView extends Component {
     render() {
         const {
             id, title, content, created_at,
-            deleteNote, archiveNote, deleteNoteForever,
-            filter
+            isDeleted, isArchived, isPinned,
+            deleteNote, archiveNote, deleteNoteForever
         } = this.props;
 
         return (
             <Card className="mb-3">
-                <NoteHeader {...{created_at, filter}}/>
+                <NoteHeader {...{created_at, isDeleted, isArchived, isPinned}}/>
                 <NoteBody {...{title, content}}/>
-                <NoteFooter {...{id, deleteNote, archiveNote, deleteNoteForever, filter}}/>
+                <NoteFooter {...{
+                    id,
+                    isDeleted, isArchived,
+                    deleteNote, archiveNote, deleteNoteForever}}/>
             </Card>
         );
     }
@@ -34,10 +37,10 @@ NoteView.propTypes = {
     created_at: PropTypes.string.isRequired,
     isDeleted: PropTypes.bool.isRequired,
     isArchived: PropTypes.bool.isRequired,
+    isPinned: PropTypes.bool.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
-    deleteNoteForever: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired
+    deleteNoteForever: PropTypes.func.isRequired
 };
 
 export default NoteView;

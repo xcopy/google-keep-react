@@ -7,22 +7,25 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-// import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
+import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 
-import {Filters} from '../actions/filter-actions';
+const NoteHeader = ({created_at, isDeleted, isArchived, isPinned}) => {
+    const isActive = !isDeleted && !isArchived;
 
-const NoteHeader = ({created_at, filter}) => {
     return (
-        <Card.Header className="bg-white border-bottom-0 pb-0 pt-2 px-2">
-            <Row className="small text-muted" noGutters>
+        <Card.Header className="bg-white border-bottom-0">
+            <Row noGutters>
                 <Col>
-                    <Moment fromNow className="d-block mx-3 my-2">{created_at}</Moment>
+                    <div className="d-flex align-items-center h-100">
+                        <Moment fromNow className="small text-muted">{created_at}</Moment>
+                    </div>
                 </Col>
                 <Col className="text-right">
-                    {filter === Filters.ACTIVE && (
-                        <Button variant="link" className="text-secondary" title="Pin note">
-                            <FontAwesomeIcon icon={faBookmark}/>
+                    {isActive && (
+                        <Button variant="link" className="text-secondary p-0"
+                            title={isPinned ? 'Unpin note' : 'Pin note'}>
+                            <FontAwesomeIcon icon={isPinned ? faBookmarked : faBookmark}/>
                         </Button>
                     )}
                 </Col>
@@ -33,7 +36,9 @@ const NoteHeader = ({created_at, filter}) => {
 
 NoteHeader.propTypes = {
     created_at: PropTypes.string.isRequired,
-    filter: PropTypes.string.isRequired
+    isDeleted: PropTypes.bool.isRequired,
+    isArchived: PropTypes.bool.isRequired,
+    isPinned: PropTypes.bool.isRequired,
     // pinNote: PropTypes.func.isRequired
 };
 
