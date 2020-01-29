@@ -2,12 +2,12 @@ import {connect} from 'react-redux'
 import {setFilter} from '../../actions/filter-actions'
 import FilterLinkView from './filter-link-view'
 
-const mapStateToProps = (store, ownProps) => ({
-    active: ownProps.filter === store.filter
+const mapStateToProps = (state, ownProps) => ({
+    active: ownProps.filter === state.filter
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick: () => dispatch(setFilter(ownProps.filter))
+    setFilter: () => dispatch(setFilter(ownProps.filter))
 });
 
 export default connect(
