@@ -9,9 +9,29 @@ import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
 import './notes.scss';
 
 class NotesView extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            pinnedNotes: [],
+            otherNotes: []
+        };
+    }
+
     componentDidMount() {
         const {getNotes} = this.props;
         getNotes();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {notes} = this.props;
+
+        if (notes !== prevProps.notes) {
+            this.setState({
+                pinnedNotes: [...notes.filter(note => note.isPinned)],
+                otherNotes: [...notes.filter(note => !note.isPinned)]
+            });
+        }
     }
 
     render() {
@@ -20,8 +40,8 @@ class NotesView extends Component {
             deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
-        return (
-            notes.length ? (
+        const row = (notes) => {
+            return (
                 <Row>
                     {notes.map(note =>
                         <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
@@ -31,6 +51,36 @@ class NotesView extends Component {
                         </Col>
                     )}
                 </Row>
+            );
+        };
+
+        const rowTitle = (title) => {
+            return <div className="small text-uppercase font-weight-bold text-secondary my-1">{title}</div>;
+        };
+
+        const {pinnedNotes, otherNotes} = this.state;
+
+        return (
+            notes.length ? (
+                <>
+                    {pinnedNotes.length ? (
+                        <>
+                            {rowTitle('Pinned')}
+                            {row(pinnedNotes)}
+
+                            {otherNotes.length && (
+                                <>
+                                    {rowTitle('Others')}
+                                    {row(otherNotes)}
+                                </>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {row(notes)}
+                        </>
+                    )}
+                </>
             ) : (
                 <div className="text-center text-muted mt-5">
                     <FontAwesomeIcon icon={{

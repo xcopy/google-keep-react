@@ -109,6 +109,8 @@ export const pinNote = (id, toggle = true) => {
 
     let note = notes.find(predicate);
     note.isPinned = toggle;
+    note.isArchived = false;
+    note.isDeleted = false;
 
     const index = notes.findIndex(predicate);
     index !== -1 && notes.splice(index, 1, note);
