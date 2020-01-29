@@ -14,12 +14,11 @@ const _deleteOrArchiveNote = (id, keyToSetup, keyToReset, restore) => {
     let notes = _getNotes();
 
     let note = notes.find(predicate);
-
     note[keyToSetup] = !restore;
     note[keyToReset] = false;
+    note.isPinned = false;
 
     const index = notes.findIndex(predicate);
-
     index !== -1 && notes.splice(index, 1, note);
 
     _setNotes(notes);
@@ -30,6 +29,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const DELETE_NOTE_FOREVER = 'DELETE_NOTE_FOREVER';
 export const ARCHIVE_NOTE = 'ARCHIVE_NOTE';
+export const PIN_NOTE = 'PIN_NOTE';
 
 export const getNotes = () => {
     return dispatch => {
@@ -99,5 +99,26 @@ export const deleteNoteForever = id => {
             type: DELETE_NOTE_FOREVER,
             notes: _getNotes()
         })
+    };
+};
+
+export const pinNote = (id, toggle = true) => {
+    const predicate = note => note.id === id;
+
+    let notes = _getNotes();
+
+    let note = notes.find(predicate);
+    note.isPinned = toggle;
+
+    const index = notes.findIndex(predicate);
+    index !== -1 && notes.splice(index, 1, note);
+
+    _setNotes(notes);
+
+    return dispatch => {
+        dispatch({
+            type: PIN_NOTE,
+            notes
+        });
     };
 };

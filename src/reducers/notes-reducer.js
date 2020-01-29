@@ -3,7 +3,8 @@ import {
     ADD_NOTE,
     DELETE_NOTE,
     DELETE_NOTE_FOREVER,
-    ARCHIVE_NOTE
+    ARCHIVE_NOTE,
+    PIN_NOTE
 } from '../actions/note-actions';
 
 const notesReducer = (state = [], action) => {
@@ -11,7 +12,8 @@ const notesReducer = (state = [], action) => {
         case GET_NOTES:
         case DELETE_NOTE:
         case ARCHIVE_NOTE:
-        case DELETE_NOTE_FOREVER: {
+        case DELETE_NOTE_FOREVER:
+        case PIN_NOTE: {
             return action.notes;
         }
         case ADD_NOTE: {

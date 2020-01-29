@@ -17,7 +17,7 @@ class NotesView extends Component {
     render() {
         const {
             notes, filter,
-            deleteNote, archiveNote, deleteNoteForever
+            deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
         return (
@@ -27,8 +27,7 @@ class NotesView extends Component {
                         <Col xl="3" lg="4" md="6" sm="6" key={note.id}>
                             <NoteView
                                 {...note}
-                                {...{deleteNote, archiveNote, deleteNoteForever}}
-                                filter={filter}/>
+                                {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}/>
                         </Col>
                     )}
                 </Row>
@@ -64,6 +63,7 @@ NotesView.propTypes = {
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
+    pinNote: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired
 };
 

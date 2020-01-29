@@ -4,7 +4,8 @@ import {
     getNotes,
     deleteNote,
     archiveNote,
-    deleteNoteForever
+    deleteNoteForever,
+    pinNote
 } from '../../actions/note-actions';
 import {Filters} from '../../actions/filter-actions';
 
@@ -37,7 +38,8 @@ const mapDispatchToProps = {
     getNotes,
     deleteNote,
     archiveNote,
-    deleteNoteForever
+    deleteNoteForever,
+    pinNote
 };
 
 export default connect(

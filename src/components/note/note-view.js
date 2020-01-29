@@ -14,12 +14,15 @@ class NoteView extends Component {
         const {
             id, title, content, created_at,
             isDeleted, isArchived, isPinned,
-            deleteNote, archiveNote, deleteNoteForever
+            deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
         return (
             <Card className="mb-3">
-                <NoteHeader {...{created_at, isDeleted, isArchived, isPinned}}/>
+                <NoteHeader {...{
+                    id, created_at,
+                    isDeleted, isArchived, isPinned,
+                    pinNote}}/>
                 <NoteBody {...{title, content}}/>
                 <NoteFooter {...{
                     id,
@@ -40,7 +43,8 @@ NoteView.propTypes = {
     isPinned: PropTypes.bool.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
-    deleteNoteForever: PropTypes.func.isRequired
+    deleteNoteForever: PropTypes.func.isRequired,
+    pinNote: PropTypes.func.isRequired
 };
 
 export default NoteView;
