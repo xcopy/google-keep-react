@@ -129,6 +129,7 @@ NotesView.propTypes = {
     notes: PropTypes.array,
     filter: PropTypes.string.isRequired,
     layout: PropTypes.string.isRequired,
+    getNotes: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
