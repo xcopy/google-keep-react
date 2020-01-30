@@ -1,4 +1,4 @@
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import {setLayout} from '../../actions/layout-actions';
 import HeaderView from './header-view';
 
