@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import FilterLinks from '../filter-links';
 import NoteView from '../note/note-view';
-import {Filters} from '../../actions/filter-actions';
 import {Layouts} from '../../actions/layout-actions';
 import {Container, Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -9,14 +9,53 @@ import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
 import './notes.scss';
 
+const filters = {
+    ACTIVE: 'ACTIVE',
+    ARCHIVED: 'ARCHIVED',
+    DELETED: 'DELETED'
+};
+
+const links = {
+    [filters.ACTIVE]: 'Notes',
+    [filters.ARCHIVED]: 'Archive',
+    [filters.DELETED]: 'Trash'
+};
+
+const icons = {
+    [filters.ACTIVE]: faLightbulb,
+    [filters.ARCHIVED]: faArchive,
+    [filters.DELETED]: faTrash
+};
+
+/**
+ * @param {[]} notes
+ * @param {string} filter
+ * @returns {[]}
+ */
+const filterNotes = (notes, filter) => {
+    switch (filter) {
+        case filters.ACTIVE:
+            return notes.filter(note => !note.isDeleted && !note.isArchived);
+        case filters.ARCHIVED:
+            return notes.filter(note => note.isArchived);
+        case filters.DELETED:
+            return notes.filter(note => note.isDeleted);
+        default:
+            throw new Error('Unknown filter: ' + filter);
+    }
+};
+
 class NotesView extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            filter: filters.ACTIVE,
             pinnedNotes: [],
             otherNotes: []
         };
+
+        this.setFilter = this.setFilter.bind(this);
     }
 
     componentDidMount() {
@@ -35,9 +74,15 @@ class NotesView extends Component {
         }
     }
 
+    setFilter(filter) {
+        this.setState({
+            filter
+        });
+    }
+
     render() {
         const {
-            notes, filter, layout,
+            layout,
             deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
@@ -75,59 +120,60 @@ class NotesView extends Component {
             return <div className="small text-uppercase font-weight-bold text-secondary my-1">{title}</div>;
         };
 
-        const {pinnedNotes, otherNotes} = this.state;
+        const {filter, pinnedNotes, otherNotes} = this.state;
+
+        const notes = filterNotes(this.props.notes, filter);
 
         return (
-            notes.length ? (
-                <Container>
-                    {pinnedNotes.length ? (
-                        <>
-                            {rowTitle('Pinned')}
-                            {row(pinnedNotes)}
+            <>
+                <FilterLinks links={links} filter={filter} onClick={this.setFilter}/>
 
-                            {otherNotes.length && (
-                                <>
-                                    {rowTitle('Others')}
-                                    {row(otherNotes)}
-                                </>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            {row(notes)}
-                        </>
-                    )}
-                </Container>
-            ) : (
-                <div className="text-center text-muted mt-5">
-                    <FontAwesomeIcon icon={{
-                        [Filters.ACTIVE]: faLightbulb,
-                        [Filters.ARCHIVED]: faArchive,
-                        [Filters.DELETED]: faTrash
-                    }[filter]} size="6x"/>
-                    <h4 className="mt-3 mb-0">
-                        {(() => {
-                            switch (filter) {
-                                case Filters.ACTIVE:
-                                    return 'Your notes appear here';
-                                case Filters.ARCHIVED:
-                                    return 'Your archived notes appear here';
-                                case Filters.DELETED:
-                                    return 'No notes in Trash';
-                                default:
-                                    return null;
-                            }
-                        })()}
-                    </h4>
-                </div>
-            )
+                {notes.length ? (
+                    <Container>
+                        {pinnedNotes.length ? (
+                            <>
+                                {rowTitle('Pinned')}
+                                {row(pinnedNotes)}
+
+                                {otherNotes.length && (
+                                    <>
+                                        {rowTitle('Others')}
+                                        {row(otherNotes)}
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                {row(notes)}
+                            </>
+                        )}
+                    </Container>
+                ) : (
+                    <div className="text-center text-muted mt-5">
+                        <FontAwesomeIcon icon={icons[filter]} size="6x"/>
+                        <h4 className="mt-3 mb-0">
+                            {(() => {
+                                switch (filter) {
+                                    case filters.ACTIVE:
+                                        return 'Your notes appear here';
+                                    case filters.ARCHIVED:
+                                        return 'Your archived notes appear here';
+                                    case filters.DELETED:
+                                        return 'No notes in Trash';
+                                    default:
+                                        return null;
+                                }
+                            })()}
+                        </h4>
+                    </div>
+                )}
+            </>
         );
     }
 }
 
 NotesView.propTypes = {
     notes: PropTypes.array,
-    filter: PropTypes.string.isRequired,
     layout: PropTypes.string.isRequired,
     getNotes: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,

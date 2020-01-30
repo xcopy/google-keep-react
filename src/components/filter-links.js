@@ -1,18 +1,30 @@
 import React from 'react';
-import {ButtonGroup} from 'react-bootstrap';
-import FilterLink from './filter-link/filter-link-container';
-import {Filters} from '../actions/filter-actions';
+import PropTypes from 'prop-types';
+import {Button, ButtonGroup} from 'react-bootstrap';
 
-const FilterLinks = () => {
+const FilterLinks = ({links, filter, onClick}) => {
     return (
         <div className="text-center py-3">
             <ButtonGroup>
-                <FilterLink filter={Filters.ACTIVE}>Notes</FilterLink>
-                <FilterLink filter={Filters.ARCHIVED}>Archive</FilterLink>
-                <FilterLink filter={Filters.DELETED}>Trash</FilterLink>
+                {Object.keys(links).map(key => (
+                    <Button
+                        key={key}
+                        variant="outline-secondary"
+                        active={key === filter}
+                        onClick={() => {onClick(key)}}
+                        style={{width: 100}}>
+                        {links[key]}
+                    </Button>
+                ))}
             </ButtonGroup>
         </div>
     );
+};
+
+FilterLinks.propTypes = {
+    links: PropTypes.object.isRequired,
+    filter: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 };
 
 export default FilterLinks;
