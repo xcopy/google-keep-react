@@ -7,7 +7,8 @@ const FilterLinkView = ({active, children, setFilter}) => {
         <Button
             variant="outline-secondary"
             active={active}
-            onClick={setFilter}>
+            onClick={setFilter}
+            style={{width: 100}}>
             {children}
         </Button>
     );
