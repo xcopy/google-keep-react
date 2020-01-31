@@ -10,9 +10,7 @@ const App = () => {
     return (
         <>
             <HeaderContainer/>
-            <main className="px-3 pb-3 pt-0">
-                <NotesContainer/>
-            </main>
+            <NotesContainer/>
         </>
     );
 };

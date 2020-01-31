@@ -1,30 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import FilterLinks from '../filter-links';
 import NoteView from '../note/note-view';
+import FilterLink from '../filter-link';
 import {Layouts} from '../../actions/layout-actions';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
-import './notes.scss';
 
 const filters = {
     ACTIVE: 'ACTIVE',
     ARCHIVED: 'ARCHIVED',
     DELETED: 'DELETED'
-};
-
-const links = {
-    [filters.ACTIVE]: 'Notes',
-    [filters.ARCHIVED]: 'Archive',
-    [filters.DELETED]: 'Trash'
-};
-
-const icons = {
-    [filters.ACTIVE]: faLightbulb,
-    [filters.ARCHIVED]: faArchive,
-    [filters.DELETED]: faTrash
 };
 
 /**
@@ -125,57 +112,74 @@ class NotesView extends Component {
         const notes = filterNotes(this.props.notes, filter);
 
         return (
-            <Container>
-                <Row noGutters>
-                    <Col md={{span: 6, offset: 3}} sm>
-                        <div className="py-3 text-center text-md-center text-sm-left">
-                            <FilterLinks links={links} filter={filter} onClick={this.setFilter}/>
-                        </div>
+            <Container fluid>
+                <Row>
+                    <Col xl={2}>
+                        <ul className="my-2 my-xl-0 list-unstyled text-muted d-flex flex-sm-row flex-xl-column justify-content-center">
+                            <FilterLink
+                                icon={faLightbulb}
+                                active={filter === filters.ACTIVE}
+                                onClick={() => this.setFilter(filters.ACTIVE)}>
+                                Notes
+                            </FilterLink>
+                            <FilterLink
+                                icon={faArchive}
+                                active={filter === filters.ARCHIVED}
+                                onClick={() => this.setFilter(filters.ARCHIVED)}>
+                                Archive
+                            </FilterLink>
+                            <FilterLink
+                                icon={faTrash}
+                                active={filter === filters.DELETED}
+                                onClick={() => this.setFilter(filters.DELETED)}>
+                                Trash
+                            </FilterLink>
+                        </ul>
                     </Col>
-                    <Col md={{span: 3}} sm>
-                        <div className="py-3 text-center text-sm-right">
-                            {filter === filters.ACTIVE && <Button variant="primary">Add note</Button>}
-                        </div>
+                    <Col>
+                        {notes.length ? (
+                            pinnedNotes.length ? (
+                                <>
+                                    {rowTitle('Pinned')}
+                                    {row(pinnedNotes)}
+
+                                    {otherNotes.length && (
+                                        <>
+                                            {rowTitle('Others')}
+                                            {row(otherNotes)}
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {row(notes)}
+                                </>
+                            )
+                        ) : (
+                            <div className="text-center text-muted m-5">
+                                <FontAwesomeIcon icon={{
+                                    [filters.ACTIVE]: faLightbulb,
+                                    [filters.ARCHIVED]: faArchive,
+                                    [filters.DELETED]: faTrash
+                                }[filter]} size="6x"/>
+                                <h4 className="mt-3 mb-0">
+                                    {(() => {
+                                        switch (filter) {
+                                            case filters.ACTIVE:
+                                                return 'Your notes appear here';
+                                            case filters.ARCHIVED:
+                                                return 'Your archived notes appear here';
+                                            case filters.DELETED:
+                                                return 'No notes in Trash';
+                                            default:
+                                                return null;
+                                        }
+                                    })()}
+                                </h4>
+                            </div>
+                        )}
                     </Col>
                 </Row>
-
-                {notes.length ? (
-                    pinnedNotes.length ? (
-                        <>
-                            {rowTitle('Pinned')}
-                            {row(pinnedNotes)}
-
-                            {otherNotes.length && (
-                                <>
-                                    {rowTitle('Others')}
-                                    {row(otherNotes)}
-                                </>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            {row(notes)}
-                        </>
-                    )
-                ) : (
-                    <div className="text-center text-muted mt-5">
-                        <FontAwesomeIcon icon={icons[filter]} size="6x"/>
-                        <h4 className="mt-3 mb-0">
-                            {(() => {
-                                switch (filter) {
-                                    case filters.ACTIVE:
-                                        return 'Your notes appear here';
-                                    case filters.ARCHIVED:
-                                        return 'Your archived notes appear here';
-                                    case filters.DELETED:
-                                        return 'No notes in Trash';
-                                    default:
-                                        return null;
-                                }
-                            })()}
-                        </h4>
-                    </div>
-                )}
             </Container>
         );
     }

@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
 import {Card} from 'react-bootstrap';
-
 import NoteHeader from '../note-header';
 import NoteBody from '../note-body';
 import NoteFooter from '../note-footer';
-
-import './note.scss';
 
 class NoteView extends Component {
     /* todo

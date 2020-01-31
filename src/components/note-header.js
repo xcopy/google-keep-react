@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Row, Col, Button, Card} from 'react-bootstrap';
-
 import Moment from 'react-moment';
 import 'moment-timezone';
-
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
