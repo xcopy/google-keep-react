@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Note from './note/note';
+import Note from './note';
 import FilterLink from './filter-link';
 import {Layouts} from '../actions/layout-actions';
 import {Container, Row, Col} from 'react-bootstrap';
