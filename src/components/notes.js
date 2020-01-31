@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Note from '../note/note';
-import FilterLink from '../filter-link';
-import {Layouts} from '../../actions/layout-actions';
+import Note from './note/note';
+import FilterLink from './filter-link';
+import {Layouts} from '../actions/layout-actions';
 import {Container, Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {archiveNote, deleteNote, deleteNoteForever, getNotes, pinNote} from '../actions/note-actions';
+import {connect} from 'react-redux';
 
 const filters = {
     ACTIVE: 'ACTIVE',
@@ -32,7 +34,7 @@ const filterNotes = (notes, filter) => {
     }
 };
 
-class NotesView extends Component {
+class Notes extends Component {
     constructor(props) {
         super(props);
 
@@ -185,7 +187,7 @@ class NotesView extends Component {
     }
 }
 
-NotesView.propTypes = {
+Notes.propTypes = {
     notes: PropTypes.array,
     layout: PropTypes.string.isRequired,
     getNotes: PropTypes.func.isRequired,
@@ -195,4 +197,22 @@ NotesView.propTypes = {
     pinNote: PropTypes.func.isRequired
 };
 
-export default NotesView;
+const mapStateToProps = state => {
+    return {
+        notes: state.notes,
+        layout: state.layout
+    };
+};
+
+const mapDispatchToProps = {
+    getNotes,
+    deleteNote,
+    archiveNote,
+    deleteNoteForever,
+    pinNote
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Notes);

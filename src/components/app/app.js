@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from '../header';
-import NotesContainer from '../notes/notes-container';
+import Notes from '../notes';
 
 import 'bootstrap/scss/bootstrap.scss';
 import './app.scss';
@@ -10,7 +10,7 @@ const App = () => {
     return (
         <>
             <Header/>
-            <NotesContainer/>
+            <Notes/>
         </>
     );
 };
