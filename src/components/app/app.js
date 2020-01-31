@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HeaderContainer from '../header/header-container';
+import Header from '../header';
 import NotesContainer from '../notes/notes-container';
 
 import 'bootstrap/scss/bootstrap.scss';
@@ -9,7 +9,7 @@ import './app.scss';
 const App = () => {
     return (
         <>
-            <HeaderContainer/>
+            <Header/>
             <NotesContainer/>
         </>
     );

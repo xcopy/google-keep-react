@@ -2,9 +2,10 @@ import React from 'react';
 import {Nav, Navbar} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCog, faRedo, faTh, faList} from '@fortawesome/free-solid-svg-icons';
-import {Layouts} from '../../actions/layout-actions';
+import {Layouts, setLayout} from '../actions/layout-actions';
+import {connect} from 'react-redux';
 
-const HeaderView = ({layout, setLayout}) => {
+const Header = ({layout, setLayout}) => {
     const viewTitle = {
         [Layouts.GRID]: 'List view',
         [Layouts.LIST]: 'Grid view'
@@ -41,4 +42,15 @@ const HeaderView = ({layout, setLayout}) => {
     );
 };
 
-export default HeaderView;
+const mapStateToProps = state => ({
+    layout: state.layout
+});
+
+const mapDispatchToProps = {
+    setLayout
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header);
