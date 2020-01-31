@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
-import NoteHeader from '../note-header';
-import NoteBody from '../note-body';
-import NoteFooter from '../note-footer';
+import NoteHeader from './note-header';
+import NoteBody from './note-body';
+import NoteFooter from './note-footer';
 
-class NoteView extends Component {
+class Note extends Component {
     /* todo
     componentDidMount() {
         this.container.setAttribute('style', `height: ${this.container.offsetWidth}px`);
@@ -36,7 +36,7 @@ class NoteView extends Component {
     }
 }
 
-NoteView.propTypes = {
+Note.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -51,4 +51,4 @@ NoteView.propTypes = {
     layout: PropTypes.string.isRequired
 };
 
-export default NoteView;
+export default Note;

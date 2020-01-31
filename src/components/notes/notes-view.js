@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import NoteView from '../note/note-view';
+import Note from '../note/note';
 import FilterLink from '../filter-link';
 import {Layouts} from '../../actions/layout-actions';
 import {Container, Row, Col} from 'react-bootstrap';
@@ -93,7 +93,7 @@ class NotesView extends Component {
                 <Row>
                     {notes.map(note =>
                         <Col xl={xl} lg={lg} md={md} sm={sm} key={note.id}>
-                            <NoteView
+                            <Note
                                 {...note}
                                 {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}
                                 layout={layout}/>

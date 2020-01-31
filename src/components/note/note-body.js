@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card} from 'react-bootstrap';
 import Truncate from 'react-truncate';
-import {Layouts} from '../actions/layout-actions';
+import {Layouts} from '../../actions/layout-actions';
 
 const NoteBody = ({title, content, layout}) => {
     const isGrid = layout === Layouts.GRID;
