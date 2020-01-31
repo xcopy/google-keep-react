@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {Navbar} from 'react-bootstrap';
-
 import HeaderContainer from '../header/header-container';
 import NotesContainer from '../notes/notes-container';
-import NoteFormContainer from '../note-form/note-form-container';
 
 import 'bootstrap/scss/bootstrap.scss';
 import './app.scss';
@@ -16,9 +13,6 @@ const App = () => {
             <main className="px-3 pb-3 pt-0">
                 <NotesContainer/>
             </main>
-            <Navbar fixed="bottom" bg="light" className="justify-content-center">
-                <NoteFormContainer/>
-            </Navbar>
         </>
     );
 };

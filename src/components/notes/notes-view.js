@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FilterLinks from '../filter-links';
 import NoteView from '../note/note-view';
 import {Layouts} from '../../actions/layout-actions';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col, Button} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
 import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -125,29 +125,38 @@ class NotesView extends Component {
         const notes = filterNotes(this.props.notes, filter);
 
         return (
-            <>
-                <FilterLinks links={links} filter={filter} onClick={this.setFilter}/>
+            <Container>
+                <Row noGutters>
+                    <Col md={{span: 6, offset: 3}} sm>
+                        <div className="py-3 text-center text-md-center text-sm-left">
+                            <FilterLinks links={links} filter={filter} onClick={this.setFilter}/>
+                        </div>
+                    </Col>
+                    <Col md={{span: 3}} sm>
+                        <div className="py-3 text-center text-sm-right">
+                            {filter === filters.ACTIVE && <Button variant="primary">Add note</Button>}
+                        </div>
+                    </Col>
+                </Row>
 
                 {notes.length ? (
-                    <Container>
-                        {pinnedNotes.length ? (
-                            <>
-                                {rowTitle('Pinned')}
-                                {row(pinnedNotes)}
+                    pinnedNotes.length ? (
+                        <>
+                            {rowTitle('Pinned')}
+                            {row(pinnedNotes)}
 
-                                {otherNotes.length && (
-                                    <>
-                                        {rowTitle('Others')}
-                                        {row(otherNotes)}
-                                    </>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {row(notes)}
-                            </>
-                        )}
-                    </Container>
+                            {otherNotes.length && (
+                                <>
+                                    {rowTitle('Others')}
+                                    {row(otherNotes)}
+                                </>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {row(notes)}
+                        </>
+                    )
                 ) : (
                     <div className="text-center text-muted mt-5">
                         <FontAwesomeIcon icon={icons[filter]} size="6x"/>
@@ -167,7 +176,7 @@ class NotesView extends Component {
                         </h4>
                     </div>
                 )}
-            </>
+            </Container>
         );
     }
 }
