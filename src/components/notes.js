@@ -1,20 +1,17 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Note from './note';
 import FilterLink from './filter-link';
+import {Filters} from '../actions/filter-actions';
 import {Layouts} from '../actions/layout-actions';
 import {Container, Row, Col} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faLightbulb} from '@fortawesome/free-regular-svg-icons';
-import {faArchive, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {archiveNote, deleteNote, deleteNoteForever, getNotes, pinNote} from '../actions/note-actions';
-import {connect} from 'react-redux';
-
-const filters = {
-    ACTIVE: 'ACTIVE',
-    ARCHIVED: 'ARCHIVED',
-    DELETED: 'DELETED'
-};
+import {
+    getNotes,
+    archiveNote,
+    deleteNote,
+    deleteNoteForever,
+    pinNote} from '../actions/note-actions';
+import FilterIcon from './filter-icon';
 
 /**
  * @param {[]} notes
@@ -23,11 +20,11 @@ const filters = {
  */
 const filterNotes = (notes, filter) => {
     switch (filter) {
-        case filters.ACTIVE:
+        case Filters.ACTIVE:
             return notes.filter(note => !note.isDeleted && !note.isArchived);
-        case filters.ARCHIVED:
+        case Filters.ARCHIVED:
             return notes.filter(note => note.isArchived);
-        case filters.DELETED:
+        case Filters.DELETED:
             return notes.filter(note => note.isDeleted);
         default:
             throw new Error('Unknown filter: ' + filter);
@@ -39,12 +36,9 @@ class Notes extends Component {
         super(props);
 
         this.state = {
-            filter: filters.ACTIVE,
             pinnedNotes: [],
             otherNotes: []
         };
-
-        this.setFilter = this.setFilter.bind(this);
     }
 
     componentDidMount() {
@@ -63,15 +57,9 @@ class Notes extends Component {
         }
     }
 
-    setFilter(filter) {
-        this.setState({
-            filter
-        });
-    }
-
     render() {
         const {
-            layout,
+            notes, filter, layout,
             deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
 
@@ -109,33 +97,16 @@ class Notes extends Component {
             return <div className="small text-uppercase font-weight-bold text-secondary my-1">{title}</div>;
         };
 
-        const {filter, pinnedNotes, otherNotes} = this.state;
-
-        const notes = filterNotes(this.props.notes, filter);
+        const {pinnedNotes, otherNotes} = this.state;
 
         return (
             <Container fluid>
                 <Row>
                     <Col xl={2}>
                         <ul className="my-2 my-xl-0 list-unstyled text-muted d-flex flex-sm-row flex-xl-column justify-content-center">
-                            <FilterLink
-                                icon={faLightbulb}
-                                active={filter === filters.ACTIVE}
-                                onClick={() => this.setFilter(filters.ACTIVE)}>
-                                Notes
-                            </FilterLink>
-                            <FilterLink
-                                icon={faArchive}
-                                active={filter === filters.ARCHIVED}
-                                onClick={() => this.setFilter(filters.ARCHIVED)}>
-                                Archive
-                            </FilterLink>
-                            <FilterLink
-                                icon={faTrash}
-                                active={filter === filters.DELETED}
-                                onClick={() => this.setFilter(filters.DELETED)}>
-                                Trash
-                            </FilterLink>
+                            <FilterLink filter={Filters.ACTIVE}>Notes</FilterLink>
+                            <FilterLink filter={Filters.ARCHIVED}>Archive</FilterLink>
+                            <FilterLink filter={Filters.DELETED}>Trash</FilterLink>
                         </ul>
                     </Col>
                     <Col>
@@ -159,15 +130,11 @@ class Notes extends Component {
                             )
                         ) : (
                             <div className="text-center text-muted m-5">
-                                <FontAwesomeIcon icon={{
-                                    [filters.ACTIVE]: faLightbulb,
-                                    [filters.ARCHIVED]: faArchive,
-                                    [filters.DELETED]: faTrash
-                                }[filter]} size="6x"/>
+                                <FilterIcon filter={filter} size="6x"/>
                                 <h4 className="mt-3 mb-0">{{
-                                    [filters.ACTIVE]: 'Your notes appear here',
-                                    [filters.ARCHIVED]: 'Your archived notes appear here',
-                                    [filters.DELETED]: 'No notes in Trash'
+                                    [Filters.ACTIVE]: 'Your notes appear here',
+                                    [Filters.ARCHIVED]: 'Your archived notes appear here',
+                                    [Filters.DELETED]: 'No notes in Trash'
                                 }[filter]}</h4>
                             </div>
                         )}
@@ -178,20 +145,13 @@ class Notes extends Component {
     }
 }
 
-Notes.propTypes = {
-    notes: PropTypes.array,
-    layout: PropTypes.string.isRequired,
-    getNotes: PropTypes.func.isRequired,
-    deleteNote: PropTypes.func.isRequired,
-    archiveNote: PropTypes.func.isRequired,
-    deleteNoteForever: PropTypes.func.isRequired,
-    pinNote: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => {
+    const {filter, notes, layout} = state;
+
     return {
-        notes: state.notes,
-        layout: state.layout
+        notes: filterNotes(notes, filter),
+        filter,
+        layout
     };
 };
 
