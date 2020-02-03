@@ -164,20 +164,11 @@ class Notes extends Component {
                                     [filters.ARCHIVED]: faArchive,
                                     [filters.DELETED]: faTrash
                                 }[filter]} size="6x"/>
-                                <h4 className="mt-3 mb-0">
-                                    {(() => {
-                                        switch (filter) {
-                                            case filters.ACTIVE:
-                                                return 'Your notes appear here';
-                                            case filters.ARCHIVED:
-                                                return 'Your archived notes appear here';
-                                            case filters.DELETED:
-                                                return 'No notes in Trash';
-                                            default:
-                                                return null;
-                                        }
-                                    })()}
-                                </h4>
+                                <h4 className="mt-3 mb-0">{{
+                                    [filters.ACTIVE]: 'Your notes appear here',
+                                    [filters.ARCHIVED]: 'Your archived notes appear here',
+                                    [filters.DELETED]: 'No notes in Trash'
+                                }[filter]}</h4>
                             </div>
                         )}
                     </Col>
