@@ -45,8 +45,7 @@ export const addNote = note => {
         id: md5(Math.random().toString()),
         created_at: new Date().toISOString(),
         isDeleted: false,
-        isArchived: false,
-        isPinned: false
+        isArchived: false
     });
 
     const notes = _getNotes();

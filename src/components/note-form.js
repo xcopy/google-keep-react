@@ -5,8 +5,9 @@ import {Button, Form, Modal} from 'react-bootstrap';
 import styled from 'styled-components';
 import faker from 'faker';
 import _ from 'lodash';
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-// import {faBookmark} from '@fortawesome/free-regular-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
+import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 
 const Textarea = styled.textarea`
     width: 100%;
@@ -24,7 +25,8 @@ const Textarea = styled.textarea`
 const initialState = {
     note: {
         title: '',
-        content: ''
+        content: '',
+        isPinned: false
     },
     expanded: false
 };
@@ -38,7 +40,8 @@ class NoteForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleForm = this.toggleForm.bind(this);
-        this.handleFaker = this.handleFaker.bind(this);
+        this.setFakeData = this.setFakeData.bind(this);
+        this.pinNote = this.pinNote.bind(this);
     }
 
     handleChange(e) {
@@ -63,8 +66,9 @@ class NoteForm extends Component {
         e.preventDefault();
 
         const {note} = this.state;
+        const {addNote} = this.props;
 
-        (note.title || note.content) && this.props.addNote(note);
+        (note.title || note.content) && addNote(note);
 
         this.setState(_.cloneDeep(initialState));
 
@@ -80,14 +84,29 @@ class NoteForm extends Component {
         });
     }
 
-    handleFaker() {
+    setFakeData() {
         this.setState(prevState => {
+            const {note} = {...prevState};
+
+            note.title = faker.lorem.sentence();
+            note.content = faker.lorem.paragraph();
+
             return {
                 ...prevState,
-                note: {
-                    title: faker.lorem.sentence(),
-                    content: faker.lorem.paragraph()
-                }
+                note
+            };
+        });
+    }
+
+    pinNote() {
+        this.setState(prevState => {
+            const {note} = {...prevState};
+
+            note.isPinned = !note.isPinned;
+
+            return {
+                ...prevState,
+                note
             };
         });
     }
@@ -107,6 +126,10 @@ class NoteForm extends Component {
                             placeholder="Title"
                             value={note.title}
                             onChange={this.handleChange}/>
+                        <Button variant="link" className="text-secondary p-1"
+                            onClick={this.pinNote}>
+                            <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
+                        </Button>
                     </Modal.Header>
                     <Modal.Body className="p-2">
                         <Textarea
@@ -123,7 +146,7 @@ class NoteForm extends Component {
                     </Modal.Body>
                     <Modal.Footer
                         className={`border-top-0 p-2 ${expanded || 'd-none'}`}>
-                        <Button type="button" variant="link" onClick={this.handleFaker}>Fake</Button>
+                        <Button type="button" variant="link" onClick={this.setFakeData}>Fake</Button>
                         <Button type="submit" variant="secondary">Close</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
