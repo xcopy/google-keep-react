@@ -12,6 +12,7 @@ import {
     deleteNoteForever,
     pinNote} from '../actions/note-actions';
 import FilterIcon from './filter-icon';
+import NoteForm from './note-form';
 
 /**
  * @param {[]} notes
@@ -110,6 +111,7 @@ class Notes extends Component {
                         </ul>
                     </Col>
                     <Col>
+                        {filter === Filters.ACTIVE && <NoteForm/>}
                         {notes.length ? (
                             pinnedNotes.length ? (
                                 <>
