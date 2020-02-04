@@ -38,16 +38,19 @@ class Note extends Component {
 
 Note.propTypes = {
     id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    content: PropTypes.string,
     created_at: PropTypes.string.isRequired,
+
     isDeleted: PropTypes.bool.isRequired,
     isArchived: PropTypes.bool.isRequired,
     isPinned: PropTypes.bool.isRequired,
+
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
     pinNote: PropTypes.func.isRequired,
+
     layout: PropTypes.string.isRequired
 };
 

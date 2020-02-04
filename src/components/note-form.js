@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {addNote} from '../actions/note-actions';
 import {Button, Form, Modal} from 'react-bootstrap';
 import styled from 'styled-components';
 import faker from 'faker';
+import _ from 'lodash';
 // import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 // import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 
@@ -30,7 +33,7 @@ class NoteForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = initialState;
+        this.state = _.cloneDeep(initialState);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,9 +62,13 @@ class NoteForm extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        this.toggleForm(false);
+        const {note} = this.state;
 
-        this.setState(initialState);
+        (note.title || note.content) && this.props.addNote(note);
+
+        this.setState(_.cloneDeep(initialState));
+
+        // this.toggleForm(false);
     }
 
     toggleForm(toggle = true) {
@@ -103,7 +110,6 @@ class NoteForm extends Component {
                     </Modal.Header>
                     <Modal.Body className="p-2">
                         <Textarea
-                            ref={el => el && el.focus()}
                             className={expanded || 'd-none'}
                             name="content"
                             rows="1"
@@ -126,4 +132,11 @@ class NoteForm extends Component {
     }
 }
 
-export default NoteForm;
+const mapDispatchToProps = {
+    addNote
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(NoteForm);

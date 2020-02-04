@@ -8,12 +8,22 @@ const NoteBody = ({title, content, layout}) => {
 
     return (
         <Card.Body className="pt-0">
-            <Card.Title>
-                <Truncate lines={isGrid ? 2 : 0}>{title}</Truncate>
-            </Card.Title>
-            <Card.Text>
-                <Truncate lines={isGrid ? 7 : 0}>{content}</Truncate>
-            </Card.Text>
+            {title || content ? (
+                <>
+                    {title && (
+                        <Card.Title>
+                            <Truncate lines={isGrid ? 2 : 0}>{title}</Truncate>
+                        </Card.Title>
+                    )}
+                    {content && (
+                        <Card.Text>
+                            <Truncate lines={isGrid ? 7 : 0}>{content}</Truncate>
+                        </Card.Text>
+                    )}
+                </>
+            ) : (
+                <h4 className="m-0 text-muted">Empty note</h4>
+            )}
         </Card.Body>
     );
 };

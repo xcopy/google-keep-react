@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.4.1",
     "faker": "^4.1.0",
+    "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "moment-timezone": "^0.5.27",
     "node-sass": "^4.13.1",
