@@ -1,26 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {addNote} from '../actions/note-actions';
-import {Button, Form, Modal} from 'react-bootstrap';
-import styled from 'styled-components';
+import {Button, Card, Form} from 'react-bootstrap';
 import faker from 'faker';
 import _ from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
-
-const Textarea = styled.textarea`
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    border: none;
-    resize: none;
-    overflow-y: auto;
-    max-height: 350px;
-    line-height: 1.5;
-    font-weight: 400;
-`;
 
 const initialState = {
     note: {
@@ -45,15 +31,10 @@ class NoteForm extends Component {
     }
 
     handleChange(e) {
-        const textarea = e.target;
-
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-
         this.setState(prevState => {
             const {note} = {...prevState};
 
-            note[textarea.name] = textarea.value;
+            note[e.target.name] = e.target.value;
 
             return {
                 note,
@@ -115,42 +96,43 @@ class NoteForm extends Component {
         const {note, expanded} = this.state;
 
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <Modal.Dialog>
-                    <Modal.Header
-                        className={`border-bottom-0 p-2 ${expanded || 'd-none'}`}>
-                        <Textarea
-                            className="h5"
-                            name="title"
-                            rows="1"
-                            placeholder="Title"
-                            value={note.title}
-                            onChange={this.handleChange}/>
-                        <Button variant="link" className="text-secondary p-1"
-                            onClick={this.pinNote}>
-                            <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
-                        </Button>
-                    </Modal.Header>
-                    <Modal.Body className="p-2">
-                        <Textarea
-                            className={expanded || 'd-none'}
-                            name="content"
-                            rows="1"
-                            placeholder="Take a note..."
-                            value={note.content}
-                            onChange={this.handleChange}/>
-                        <div className={`text-muted cursor-pointer ${expanded && 'd-none'}`}
-                            onClick={() => this.toggleForm()}>
-                            Take a note&hellip;
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer
-                        className={`border-top-0 p-2 ${expanded || 'd-none'}`}>
-                        <Button type="button" variant="link" onClick={this.setFakeData}>Fake</Button>
-                        <Button type="submit" variant="secondary">Close</Button>
-                    </Modal.Footer>
-                </Modal.Dialog>
-            </Form>
+            <Card className="w-50 mx-auto my-5">
+                <Card.Body className={`p-${expanded ? 3 : 2}`}>
+                    <Form className={expanded || 'd-none'} onSubmit={this.handleSubmit}>
+                        <Form.Group className="text-right">
+                            <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
+                                <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
+                            </span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control
+                                type="text"
+                                name="title"
+                                placeholder="Title"
+                                value={note.title}
+                                onChange={this.handleChange}/>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control
+                                as="textarea"
+                                name="content"
+                                rows="4"
+                                placeholder="Take a note..."
+                                value={note.content}
+                                onChange={this.handleChange}>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group className="mb-0 d-flex justify-content-between">
+                            <span className="px-0 py-2 cursor-pointer" onClick={this.setFakeData}>Fake it!</span>
+                            <Button type="submit" variant="secondary">Close</Button>
+                        </Form.Group>
+                    </Form>
+                    <div className={`text-muted cursor-pointer ${expanded && 'd-none'}`}
+                        onClick={() => this.toggleForm()}>
+                        Take a note&hellip;
+                    </div>
+                </Card.Body>
+            </Card>
         );
     }
 }
