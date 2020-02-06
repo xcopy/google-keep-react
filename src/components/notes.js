@@ -133,7 +133,7 @@ class Notes extends Component {
                         </ul>
                     </Col>
                     <Col>
-                        {note && (
+                        {note !== null && (
                             <Modal show={note !== null} backdrop="static">
                                 <NoteForm
                                     note={note}
@@ -153,21 +153,21 @@ class Notes extends Component {
                         {filter === Filters.DELETED && (
                             <div className="m-5 text-center">
                                 <em className="p-2">Notes in Trash are deleted after 7 days.</em>
-                                {notes.length ? (
+                                {notes.length > 0 && (
                                     <Button variant="outline-info" size="sm" onClick={this.emptyTrash}>
                                         Empty Trash
                                     </Button>
-                                ) : ''}
+                                )}
                             </div>
                         )}
 
-                        {notes.length ? (
+                        {notes.length > 0 ? (
                             pinnedNotes.length ? (
                                 <>
                                     {rowTitle('Pinned')}
                                     {row(pinnedNotes)}
 
-                                    {otherNotes.length && (
+                                    {otherNotes.length > 0 && (
                                         <>
                                             {rowTitle('Others')}
                                             {row(otherNotes)}
