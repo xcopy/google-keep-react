@@ -1,5 +1,4 @@
 import React from 'react';
-import {Card} from 'react-bootstrap';
 import Truncate from 'react-truncate';
 import {Layouts} from '../actions/layout-actions';
 
@@ -11,14 +10,14 @@ const NoteBody = ({title, content, layout}) => {
             {title || content ? (
                 <>
                     {title && (
-                        <Card.Title>
+                        <div className="mb-3 h5">
                             <Truncate lines={isGrid ? 2 : 0}>{title}</Truncate>
-                        </Card.Title>
+                        </div>
                     )}
                     {content && (
-                        <Card.Text>
+                        <div className="mb-3">
                             <Truncate lines={isGrid ? 7 : 0}>{content}</Truncate>
-                        </Card.Text>
+                        </div>
                     )}
                 </>
             ) : (
