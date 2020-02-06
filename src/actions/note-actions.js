@@ -84,12 +84,12 @@ export const archiveNote = (id, restore = false) => {
     };
 };
 
-export const deleteNoteForever = id => {
+export const deleteNoteForever = ids => {
     let notes = _getNotes();
 
-    const index = notes.findIndex(note => note.id === id);
+    typeof ids === 'string' && (ids = [ids]);
 
-    index !== -1 && notes.splice(index, 1);
+    notes = notes.filter(note => !ids.includes(note.id));
 
     _setNotes(notes);
 

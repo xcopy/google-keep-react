@@ -4,7 +4,7 @@ import Note from './note';
 import FilterLink from './filter-link';
 import {Filters} from '../actions/filter-actions';
 import {Layouts} from '../actions/layout-actions';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col, Button} from 'react-bootstrap';
 import {
     getNotes,
     archiveNote,
@@ -40,6 +40,8 @@ class Notes extends Component {
             pinnedNotes: [],
             otherNotes: []
         };
+
+        this.emptyTrash = this.emptyTrash.bind(this);
     }
 
     componentDidMount() {
@@ -56,6 +58,11 @@ class Notes extends Component {
                 otherNotes: [...notes.filter(note => !note.isPinned)]
             });
         }
+    }
+
+    emptyTrash() {
+        const {notes, deleteNoteForever} = this.props;
+        deleteNoteForever(notes.map(({id}) => id));
     }
 
     render() {
@@ -112,6 +119,18 @@ class Notes extends Component {
                     </Col>
                     <Col>
                         {filter === Filters.ACTIVE && <NoteForm/>}
+
+                        {filter === Filters.DELETED && (
+                            <div className="m-5 text-center">
+                                <em className="p-2">Notes in Trash are deleted after 7 days.</em>
+                                {notes.length ? (
+                                    <Button variant="outline-info" size="sm" onClick={this.emptyTrash}>
+                                        Empty Trash
+                                    </Button>
+                                ) : ''}
+                            </div>
+                        )}
+
                         {notes.length ? (
                             pinnedNotes.length ? (
                                 <>
