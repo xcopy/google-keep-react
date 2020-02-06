@@ -22,15 +22,17 @@ class Note extends Component {
 
         return (
             <Card className="mb-3"/*ref={el => (this.container = el)}*/>
-                <NoteHeader {...{
-                    id, created_at,
-                    isDeleted, isArchived, isPinned,
-                    pinNote}}/>
-                <NoteBody {...{title, content, layout}}/>
-                <NoteFooter {...{
-                    id,
-                    isDeleted, isArchived,
-                    deleteNote, archiveNote, deleteNoteForever}}/>
+                <Card.Body>
+                    <NoteHeader {...{
+                        id, created_at,
+                        isDeleted, isArchived, isPinned,
+                        pinNote}}/>
+                    <NoteBody {...{title, content, layout}}/>
+                    <NoteFooter {...{
+                        id,
+                        isDeleted, isArchived,
+                        deleteNote, archiveNote, deleteNoteForever}}/>
+                </Card.Body>
             </Card>
         );
     }

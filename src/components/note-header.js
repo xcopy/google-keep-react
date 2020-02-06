@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Row, Col, Button, Card} from 'react-bootstrap';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -9,24 +8,16 @@ import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 
 const NoteHeader = ({id, created_at, isDeleted, isArchived, isPinned, pinNote}) => {
     return (
-        <Card.Header className="bg-white border-bottom-0">
-            <Row noGutters>
-                <Col>
-                    <div className="d-flex align-items-center h-100">
-                        <Moment fromNow className="small text-muted">{created_at}</Moment>
-                    </div>
-                </Col>
-                <Col className="text-right">
-                    {isDeleted || (
-                        <Button variant="link" className="text-secondary p-0"
-                            title={isPinned ? 'Unpin note' : 'Pin note'}
-                            onClick={() => pinNote(id, !isPinned)}>
-                            <FontAwesomeIcon icon={isPinned ? faBookmarked : faBookmark}/>
-                        </Button>
-                    )}
-                </Col>
-            </Row>
-        </Card.Header>
+        <div className="mb-3 d-flex justify-content-between">
+            <Moment fromNow className="small text-muted">{created_at}</Moment>
+            {isDeleted || (
+                <span className="text-secondary cursor-pointer"
+                    title={isPinned ? 'Unpin note' : 'Pin note'}
+                    onClick={() => pinNote(id, !isPinned)}>
+                    <FontAwesomeIcon icon={isPinned ? faBookmarked : faBookmark}/>
+                </span>
+            )}
+        </div>
     );
 };
 

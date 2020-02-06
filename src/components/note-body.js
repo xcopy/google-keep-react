@@ -7,7 +7,7 @@ const NoteBody = ({title, content, layout}) => {
     const isGrid = layout === Layouts.GRID;
 
     return (
-        <Card.Body className="pt-0">
+        <>
             {title || content ? (
                 <>
                     {title && (
@@ -24,7 +24,7 @@ const NoteBody = ({title, content, layout}) => {
             ) : (
                 <h4 className="m-0 text-muted">Empty note</h4>
             )}
-        </Card.Body>
+        </>
     );
 };
 

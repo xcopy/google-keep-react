@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Card} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faCaretSquareDown,
@@ -14,27 +13,27 @@ const NoteFooter = ({id, isDeleted, isArchived, deleteNote, archiveNote, deleteN
     const isActive = !isDeleted && !isArchived;
 
     return (
-        <Card.Footer className="text-right">
+        <div className="text-right">
             {isDeleted || (
-                <Button variant="link" className="text-secondary py-0"
+                <span className="text-secondary cursor-pointer"
                     title={isActive ? 'Archive' : 'Unarchive'}
                     onClick={() => archiveNote(id, isArchived)}>
                     <FontAwesomeIcon icon={isActive ? faCaretSquareDown : faCaretSquareUp}/>
-                </Button>
+                </span>
             )}
             {isDeleted && (
-                <Button variant="link" className="text-secondary py-0"
+                <span className="text-secondary cursor-pointer"
                     title="Delete forever"
                     onClick={() => deleteNoteForever(id)}>
                     <FontAwesomeIcon icon={faTimesCircle}/>
-                </Button>
+                </span>
             )}
-            <Button variant="link" className="text-secondary py-0 pr-0"
+            <span className="text-secondary cursor-pointer pl-3"
                 title={isDeleted ? 'Restore' : 'Delete'}
                 onClick={() => deleteNote(id, isDeleted)}>
                 <FontAwesomeIcon icon={isDeleted ? faTrashRestore : faTrash}/>
-            </Button>
-        </Card.Footer>
+            </span>
+        </div>
     );
 };
 
