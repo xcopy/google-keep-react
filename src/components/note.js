@@ -17,7 +17,7 @@ class Note extends Component {
             id, title, content, created_at,
             isDeleted, isArchived, isPinned,
             deleteNote, archiveNote, deleteNoteForever, pinNote,
-            layout
+            layout, onClick
         } = this.props;
 
         return (
@@ -27,7 +27,9 @@ class Note extends Component {
                         id, created_at,
                         isDeleted, isArchived, isPinned,
                         pinNote}}/>
-                    <NoteBody {...{title, content, layout}}/>
+                    <div onClick={onClick}>
+                        <NoteBody {...{title, content, layout}}/>
+                    </div>
                     <NoteFooter {...{
                         id,
                         isDeleted, isArchived,
@@ -53,7 +55,8 @@ Note.propTypes = {
     deleteNoteForever: PropTypes.func.isRequired,
     pinNote: PropTypes.func.isRequired,
 
-    layout: PropTypes.string.isRequired
+    layout: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 };
 
 export default Note;

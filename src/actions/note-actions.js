@@ -26,6 +26,7 @@ const _deleteOrArchiveNote = (id, keyToSetup, keyToReset, restore) => {
 
 export const GET_NOTES = 'GET_NOTES';
 export const ADD_NOTE = 'ADD_NOTE';
+export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const DELETE_NOTE_FOREVER = 'DELETE_NOTE_FOREVER';
 export const ARCHIVE_NOTE = 'ARCHIVE_NOTE';
@@ -58,6 +59,24 @@ export const addNote = note => {
         dispatch({
             type: ADD_NOTE,
             note
+        });
+    };
+};
+
+export const updateNote = note => {
+    const notes = _getNotes();
+    const index = notes.findIndex(n => n.id === note.id);
+
+    note.isPinned && (note.isArchived = false);
+
+    index !== -1 && notes.splice(index, 1, note);
+
+    _setNotes(notes);
+
+    return dispatch => {
+        dispatch({
+            type: UPDATE_NOTE,
+            notes: notes
         });
     };
 };

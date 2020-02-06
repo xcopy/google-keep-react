@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {addNote} from '../actions/note-actions';
-import {Button, Card, Form} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import {Button, Modal, Form} from 'react-bootstrap';
 import faker from 'faker';
 import _ from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -21,7 +20,11 @@ class NoteForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = _.cloneDeep(initialState);
+        const {note, expanded} = props;
+
+        this.state = note
+            ? {...{note, expanded}}
+            : _.cloneDeep(initialState);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +34,8 @@ class NoteForm extends Component {
     }
 
     handleChange(e) {
+        e.persist();
+
         this.setState(prevState => {
             const {note} = {...prevState};
 
@@ -47,13 +52,17 @@ class NoteForm extends Component {
         e.preventDefault();
 
         const {note} = this.state;
-        const {addNote} = this.props;
+        const {addNote, updateNote, onSubmit} = this.props;
 
-        (note.title || note.content) && addNote(note);
+        if (note.id) {
+            updateNote(note);
+        } else {
+            (note.title || note.content) && addNote(note);
+        }
 
         this.setState(_.cloneDeep(initialState));
 
-        // this.toggleForm(false);
+        onSubmit && onSubmit();
     }
 
     toggleForm(toggle = true) {
@@ -96,52 +105,51 @@ class NoteForm extends Component {
         const {note, expanded} = this.state;
 
         return (
-            <Card className="w-50 mx-auto my-5">
-                <Card.Body className={`p-${expanded ? 3 : 2}`}>
-                    <Form className={expanded || 'd-none'} onSubmit={this.handleSubmit}>
-                        <Form.Group className="text-right">
-                            <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
-                                <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
-                            </span>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control
-                                type="text"
-                                name="title"
-                                placeholder="Title"
-                                value={note.title}
-                                onChange={this.handleChange}/>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Control
-                                as="textarea"
-                                name="content"
-                                rows="4"
-                                placeholder="Take a note..."
-                                value={note.content}
-                                onChange={this.handleChange}>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group className="mb-0 d-flex justify-content-between">
-                            <span className="px-0 py-2 cursor-pointer" onClick={this.setFakeData}>Fake it!</span>
-                            <Button type="submit" variant="secondary">Close</Button>
-                        </Form.Group>
-                    </Form>
-                    <div className={`text-muted cursor-pointer ${expanded && 'd-none'}`}
-                        onClick={() => this.toggleForm()}>
-                        Take a note&hellip;
-                    </div>
-                </Card.Body>
-            </Card>
+            <Modal.Body className={`p-${expanded ? 3 : 2}`}>
+                <Form className={expanded || 'd-none'} onSubmit={this.handleSubmit}>
+                    <Form.Group className="text-right">
+                        <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
+                            <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
+                        </span>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            type="text"
+                            name="title"
+                            placeholder="Title"
+                            value={note.title}
+                            onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            as="textarea"
+                            name="content"
+                            rows="4"
+                            placeholder="Take a note..."
+                            value={note.content}
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group className="mb-0 d-flex justify-content-between">
+                        <span className="px-0 py-2 cursor-pointer" onClick={this.setFakeData}>Fake it!</span>
+                        <Button type="submit" variant="secondary">Close</Button>
+                    </Form.Group>
+                </Form>
+                <div className={`text-muted cursor-pointer ${expanded && 'd-none'}`}
+                    onClick={() => this.toggleForm()}>
+                    Take a note&hellip;
+                </div>
+            </Modal.Body>
         );
     }
 }
 
-const mapDispatchToProps = {
-    addNote
+NoteForm.propTypes = {
+    note: PropTypes.object,
+    expanded: PropTypes.bool,
+    addNote: PropTypes.func.isRequired,
+    updateNote: PropTypes.func,
+    onSubmit: PropTypes.func
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(NoteForm);
+export default NoteForm;

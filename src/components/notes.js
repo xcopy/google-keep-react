@@ -4,13 +4,16 @@ import Note from './note';
 import FilterLink from './filter-link';
 import {Filters} from '../actions/filter-actions';
 import {Layouts} from '../actions/layout-actions';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import {Container, Row, Col, Button, Modal} from 'react-bootstrap';
 import {
     getNotes,
+    addNote,
+    updateNote,
     archiveNote,
     deleteNote,
     deleteNoteForever,
-    pinNote} from '../actions/note-actions';
+    pinNote,
+} from '../actions/note-actions';
 import FilterIcon from './filter-icon';
 import NoteForm from './note-form';
 
@@ -38,10 +41,12 @@ class Notes extends Component {
 
         this.state = {
             pinnedNotes: [],
-            otherNotes: []
+            otherNotes: [],
+            note: null
         };
 
         this.emptyTrash = this.emptyTrash.bind(this);
+        this.setNote = this.setNote.bind(this);
     }
 
     componentDidMount() {
@@ -65,11 +70,22 @@ class Notes extends Component {
         deleteNoteForever(notes.map(({id}) => id));
     }
 
+    setNote(note = null) {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                note
+            };
+        });
+    }
+
     render() {
         const {
             notes, filter, layout,
-            deleteNote, archiveNote, deleteNoteForever, pinNote
+            addNote, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote
         } = this.props;
+
+        const {pinnedNotes, otherNotes, note} = this.state;
 
         const row = (notes) => {
             const isGrid = layout === Layouts.GRID;
@@ -94,7 +110,8 @@ class Notes extends Component {
                             <Note
                                 {...note}
                                 {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}
-                                layout={layout}/>
+                                layout={layout}
+                                onClick={() => this.setNote(note)}/>
                         </Col>
                     )}
                 </Row>
@@ -104,8 +121,6 @@ class Notes extends Component {
         const rowTitle = (title) => {
             return <div className="small text-uppercase font-weight-bold text-secondary my-1">{title}</div>;
         };
-
-        const {pinnedNotes, otherNotes} = this.state;
 
         return (
             <Container fluid>
@@ -118,7 +133,22 @@ class Notes extends Component {
                         </ul>
                     </Col>
                     <Col>
-                        {filter === Filters.ACTIVE && <NoteForm/>}
+                        {note && (
+                            <Modal show={note !== null} backdrop="static">
+                                <NoteForm
+                                    note={note}
+                                    expanded={true}
+                                    addNote={addNote}
+                                    updateNote={updateNote}
+                                    onSubmit={() => this.setNote()}/>
+                            </Modal>
+                        )}
+
+                        {filter === Filters.ACTIVE && (
+                            <Modal.Dialog>
+                                <NoteForm addNote={addNote}/>
+                            </Modal.Dialog>
+                        )}
 
                         {filter === Filters.DELETED && (
                             <div className="m-5 text-center">
@@ -178,6 +208,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     getNotes,
+    addNote,
+    updateNote,
     deleteNote,
     archiveNote,
     deleteNoteForever,
