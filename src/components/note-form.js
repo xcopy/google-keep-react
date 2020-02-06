@@ -70,7 +70,7 @@ class NoteForm extends Component {
             const {note} = {...prevState};
 
             note.title = faker.lorem.sentence();
-            note.content = faker.lorem.paragraph();
+            note.content = faker.lorem.paragraphs(faker.random.number({min: 1, max: 3}));
 
             return {
                 ...prevState,
