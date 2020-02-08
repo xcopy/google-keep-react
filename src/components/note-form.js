@@ -108,9 +108,13 @@ class NoteForm extends Component {
             <Modal.Body className={`p-${expanded ? 3 : 2}`}>
                 <Form className={expanded || 'd-none'} onSubmit={this.handleSubmit}>
                     <Form.Group className="text-right">
-                        <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
-                            <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
-                        </span>
+                        {note.isDeleted ? (
+                            <small className="text-muted">Note in Trash</small>
+                        ) : (
+                            <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
+                                <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
+                            </span>
+                        )}
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
