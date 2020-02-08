@@ -1,4 +1,4 @@
-import md5 from 'md5';
+import faker from 'faker';
 
 const LOCAL_STORAGE_KEY = 'notes';
 
@@ -43,7 +43,7 @@ export const getNotes = () => {
 
 export const addNote = note => {
     note = Object.assign({}, note, {
-        id: md5(Math.random().toString()),
+        id: faker.random.uuid(),
         created_at: new Date().toISOString(),
         isDeleted: false,
         isArchived: false
