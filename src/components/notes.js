@@ -134,7 +134,7 @@ class Notes extends Component {
                     </Col>
                     <Col>
                         {note !== null && (
-                            <Modal show={note !== null} backdrop="static">
+                            <Modal show={note !== null} onHide={() => this.setNote()}>
                                 <NoteForm
                                     note={note}
                                     expanded={true}

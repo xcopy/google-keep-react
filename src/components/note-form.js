@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Button, Modal, Form} from 'react-bootstrap';
 import faker from 'faker';
@@ -6,6 +7,26 @@ import _ from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
+import styled from 'styled-components';
+
+const ModalHeader = styled.div`
+    max-height: 200px;
+    overflow-y: auto;
+`;
+
+const ModalBody = styled(ModalHeader)`
+    max-height: 350px;
+`;
+
+const Textarea = styled.textarea`
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+`;
 
 const initialState = {
     note: {
@@ -16,21 +37,56 @@ const initialState = {
     expanded: false
 };
 
+const inputEvent = new Event('input', {
+    bubbles: true,
+    cancelable: true
+});
+
+const inputEventListener = (e) => {
+    const element = e.target;
+
+    element.style.height = 'auto';
+    element.style.height = `${element.scrollHeight}px`;
+};
+
 class NoteForm extends Component {
     constructor(props) {
         super(props);
 
-        const {note, expanded} = props;
-
-        this.state = note
-            ? {...{note, expanded}}
-            : _.cloneDeep(initialState);
+        this.state = _.cloneDeep(initialState);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.toggleForm = this.toggleForm.bind(this);
-        this.setFakeData = this.setFakeData.bind(this);
-        this.pinNote = this.pinNote.bind(this);
+    }
+
+    componentDidMount() {
+        const {note, expanded} = this.props;
+
+        this.inputs = [
+            ...ReactDOM.findDOMNode(this).getElementsByTagName('textarea')
+        ];
+
+        this.inputs.forEach(input => {
+            input.addEventListener('input', inputEventListener);
+        });
+
+        note && this.setState({
+            note,
+            expanded
+        }, () => {
+            this.inputs.forEach(input => {
+                input.dispatchEvent(inputEvent);
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.inputs.forEach(input => {
+            input.removeEventListener('input', inputEventListener);
+        });
+
+        // submit form anyway (maybe there are some filled inputs)
+        this.handleSubmit();
     }
 
     handleChange(e) {
@@ -49,7 +105,7 @@ class NoteForm extends Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
+        e && e.preventDefault();
 
         const {note} = this.state;
         const {addNote, updateNote, onSubmit} = this.props;
@@ -65,11 +121,11 @@ class NoteForm extends Component {
         onSubmit && onSubmit();
     }
 
-    toggleForm(toggle = true) {
+    expandForm() {
         this.setState(prevState => {
             return {
                 ...prevState,
-                expanded: toggle
+                expanded: true
             };
         });
     }
@@ -77,14 +133,19 @@ class NoteForm extends Component {
     setFakeData() {
         this.setState(prevState => {
             const {note} = {...prevState};
+            const min = 1, max = 3;
 
-            note.title = faker.lorem.sentence();
-            note.content = faker.lorem.paragraphs(faker.random.number({min: 1, max: 3}));
+            note.title = faker.lorem.sentences(faker.random.number({min, max}));
+            note.content = faker.lorem.paragraphs(faker.random.number({min, max}));
 
             return {
                 ...prevState,
                 note
             };
+        }, () => {
+            this.inputs.forEach(input => {
+                input.dispatchEvent(inputEvent);
+            });
         });
     }
 
@@ -105,45 +166,43 @@ class NoteForm extends Component {
         const {note, expanded} = this.state;
 
         return (
-            <Modal.Body className={`p-${expanded ? 3 : 2}`}>
-                <Form className={expanded || 'd-none'} onSubmit={this.handleSubmit}>
-                    <Form.Group className="text-right">
-                        {note.isDeleted ? (
-                            <small className="text-muted">Note in Trash</small>
-                        ) : (
-                            <span className="text-secondary cursor-pointer" onClick={this.pinNote}>
+            <>
+                <Form className={expanded ? '' : 'd-none'} onSubmit={this.handleSubmit}>
+                    <ModalHeader className="modal-header border-bottom-0">
+                        <Textarea
+                            name="title"
+                            rows="1"
+                            placeholder="Title"
+                            value={note.title}
+                            onChange={this.handleChange}
+                            className="h5"/>
+
+                        {note.isDeleted ? '' : (
+                            <span className="text-secondary cursor-pointer float-right pl-2"
+                                onClick={this.pinNote.bind(this)}>
                                 <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
                             </span>
                         )}
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            type="text"
-                            name="title"
-                            placeholder="Title"
-                            value={note.title}
-                            onChange={this.handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            as="textarea"
+                    </ModalHeader>
+                    <ModalBody className="modal-body py-0">
+                        <Textarea
                             name="content"
-                            rows="4"
+                            rows="1"
                             placeholder="Take a note..."
                             value={note.content}
-                            onChange={this.handleChange}>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-0 d-flex justify-content-between">
-                        <span className="px-0 py-2 cursor-pointer" onClick={this.setFakeData}>Fake it!</span>
+                            onChange={this.handleChange}/>
+                    </ModalBody>
+                    <Modal.Footer className="border-top-0">
+                        <Button type="button" variant="link" onClick={this.setFakeData.bind(this)}>Fake it!</Button>
                         <Button type="submit" variant="secondary">Close</Button>
-                    </Form.Group>
+                    </Modal.Footer>
                 </Form>
-                <div className={`text-muted cursor-pointer ${expanded && 'd-none'}`}
-                    onClick={() => this.toggleForm()}>
+
+                <div className={`text-muted cursor-pointer p-3 ${expanded ? 'd-none' : ''}`}
+                    onClick={this.expandForm.bind(this)}>
                     Take a note&hellip;
                 </div>
-            </Modal.Body>
+            </>
         );
     }
 }
