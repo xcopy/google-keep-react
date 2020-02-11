@@ -108,8 +108,7 @@ class Notes extends Component {
                     {notes.map(note =>
                         <Col xl={xl} lg={lg} md={md} sm={sm} key={note.id}>
                             <Note
-                                {...note}
-                                {...{deleteNote, archiveNote, deleteNoteForever, pinNote}}
+                                {...{note, deleteNote, archiveNote, deleteNoteForever, pinNote}}
                                 layout={layout}
                                 onClick={() => this.setNote(note)}/>
                         </Col>
@@ -162,7 +161,7 @@ class Notes extends Component {
                         )}
 
                         {notes.length > 0 ? (
-                            pinnedNotes.length ? (
+                            pinnedNotes.length > 0 ? (
                                 <>
                                     {rowTitle('Pinned')}
                                     {row(pinnedNotes)}

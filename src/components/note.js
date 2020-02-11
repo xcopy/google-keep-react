@@ -6,34 +6,21 @@ import NoteBody from './note-body';
 import NoteFooter from './note-footer';
 
 class Note extends Component {
-    /* todo
-    componentDidMount() {
-        this.container.setAttribute('style', `height: ${this.container.offsetWidth}px`);
-    }
-    */
-
     render() {
         const {
-            id, title, content, created_at,
-            isDeleted, isArchived, isPinned,
+            note,
             deleteNote, archiveNote, deleteNoteForever, pinNote,
             layout, onClick
         } = this.props;
 
         return (
-            <Card className="mb-3"/*ref={el => (this.container = el)}*/>
+            <Card className="mb-3">
                 <Card.Body>
-                    <NoteHeader {...{
-                        id, created_at,
-                        isDeleted, isArchived, isPinned,
-                        pinNote}}/>
+                    <NoteHeader {...{note, layout, pinNote}}/>
                     <div onClick={onClick}>
-                        <NoteBody {...{title, content, layout}}/>
+                        <NoteBody {...{note, layout}}/>
                     </div>
-                    <NoteFooter {...{
-                        id,
-                        isDeleted, isArchived,
-                        deleteNote, archiveNote, deleteNoteForever}}/>
+                    <NoteFooter {...{note, deleteNote, archiveNote, deleteNoteForever}}/>
                 </Card.Body>
             </Card>
         );
@@ -41,14 +28,7 @@ class Note extends Component {
 }
 
 Note.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string,
-    content: PropTypes.string,
-    created_at: PropTypes.string.isRequired,
-
-    isDeleted: PropTypes.bool.isRequired,
-    isArchived: PropTypes.bool.isRequired,
-    isPinned: PropTypes.bool.isRequired,
+    note: PropTypes.object.isRequired,
 
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,

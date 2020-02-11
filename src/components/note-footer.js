@@ -8,39 +8,46 @@ import {
     faTrashRestore,
     faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
 
-const NoteFooter = ({id, isDeleted, isArchived, deleteNote, archiveNote, deleteNoteForever}) => {
+const LinkSpan = styled.span`
+    cursor: pointer;
+    padding-right: 20px;
+`;
+
+const NoteFooter = ({note, deleteNote, archiveNote, deleteNoteForever}) => {
+    const {id, isDeleted, isArchived} = note;
     const isActive = !isDeleted && !isArchived;
 
     return (
-        <div className="text-right">
+        <div className="text-secondary d-inline-block">
             {isDeleted || (
-                <span className="text-secondary cursor-pointer"
+                <LinkSpan
                     title={isActive ? 'Archive' : 'Unarchive'}
                     onClick={() => archiveNote(id, isArchived)}>
                     <FontAwesomeIcon icon={isActive ? faCaretSquareDown : faCaretSquareUp}/>
-                </span>
+                </LinkSpan>
             )}
+
             {isDeleted && (
-                <span className="text-secondary cursor-pointer"
+                <LinkSpan
                     title="Delete forever"
                     onClick={() => deleteNoteForever(id)}>
                     <FontAwesomeIcon icon={faTimesCircle}/>
-                </span>
+                </LinkSpan>
             )}
-            <span className="text-secondary cursor-pointer pl-3"
+
+            <LinkSpan
                 title={isDeleted ? 'Restore' : 'Delete'}
                 onClick={() => deleteNote(id, isDeleted)}>
                 <FontAwesomeIcon icon={isDeleted ? faTrashRestore : faTrash}/>
-            </span>
+            </LinkSpan>
         </div>
     );
 };
 
 NoteFooter.propTypes = {
-    id: PropTypes.string.isRequired,
-    isDeleted: PropTypes.bool.isRequired,
-    isArchived: PropTypes.bool.isRequired,
+    note: PropTypes.object.isRequired,
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired
