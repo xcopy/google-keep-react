@@ -17,7 +17,7 @@ class Note extends Component {
             <Card className="mb-3">
                 <Card.Body>
                     <NoteHeader {...{note, layout, pinNote}}/>
-                    <div onClick={onClick}>
+                    <div className="cursor-pointer" onClick={onClick}>
                         <NoteBody {...{note, layout}}/>
                     </div>
                     <NoteFooter {...{note, deleteNote, archiveNote, deleteNoteForever}}/>

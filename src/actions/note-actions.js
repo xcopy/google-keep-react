@@ -120,20 +120,20 @@ export const deleteNoteForever = ids => {
     };
 };
 
-export const pinNote = (id, toggle = true) => {
-    const predicate = note => note.id === id;
-
+export const pinNote = (note, toggle = true) => {
     let notes = _getNotes();
 
-    let note = notes.find(predicate);
     note.isPinned = toggle;
     note.isArchived = false;
     note.isDeleted = false;
 
-    const index = notes.findIndex(predicate);
-    index !== -1 && notes.splice(index, 1, note);
+    if (note.id) {
+        const index = notes.findIndex(n => note.id === n.id);
 
-    _setNotes(notes);
+        index !== -1 && notes.splice(index, 1, note);
+
+        _setNotes(notes);
+    }
 
     return dispatch => {
         dispatch({

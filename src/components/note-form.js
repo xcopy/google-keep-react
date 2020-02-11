@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import {Button, Modal, Form} from 'react-bootstrap';
 import faker from 'faker';
 import _ from 'lodash';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
-import {faBookmark} from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
+import Pin from './pin';
 
 const ModalHeader = styled.div`
     max-height: 200px;
@@ -149,21 +147,10 @@ class NoteForm extends Component {
         });
     }
 
-    pinNote() {
-        this.setState(prevState => {
-            const {note} = {...prevState};
-
-            note.isPinned = !note.isPinned;
-
-            return {
-                ...prevState,
-                note
-            };
-        });
-    }
-
     render() {
+        const {pinNote} = this.props;
         const {note, expanded} = this.state;
+        const {title, content, isPinned} = note;
 
         return (
             <>
@@ -173,23 +160,18 @@ class NoteForm extends Component {
                             name="title"
                             rows="1"
                             placeholder="Title"
-                            value={note.title}
+                            value={title}
                             onChange={this.handleChange}
                             className="h5"/>
 
-                        {note.isDeleted ? '' : (
-                            <span className="text-secondary cursor-pointer float-right pl-2"
-                                onClick={this.pinNote.bind(this)}>
-                                <FontAwesomeIcon icon={note.isPinned ? faBookmarked : faBookmark}/>
-                            </span>
-                        )}
+                        <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
                     </ModalHeader>
                     <ModalBody className="modal-body py-0">
                         <Textarea
                             name="content"
                             rows="1"
                             placeholder="Take a note..."
-                            value={note.content}
+                            value={content}
                             onChange={this.handleChange}/>
                     </ModalBody>
                     <Modal.Footer className="border-top-0">
@@ -212,6 +194,7 @@ NoteForm.propTypes = {
     expanded: PropTypes.bool,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func,
+    pinNote: PropTypes.func,
     onSubmit: PropTypes.func
 };
 

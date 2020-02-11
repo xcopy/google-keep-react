@@ -5,7 +5,7 @@ import {Layouts} from '../actions/layout-actions';
 import Moment from 'react-moment';
 
 const NoteBody = ({note, layout}) => {
-    const {content, created_at} = note;
+    const {content, created_at, isDeleted} = note;
 
     return (
         <>
@@ -18,7 +18,11 @@ const NoteBody = ({note, layout}) => {
             )}
 
             <div className="mb-3 text-muted small">
-                Created <Moment fromNow>{created_at}</Moment>
+                {isDeleted ? 'Note in Trash' : (
+                    <>
+                        Created <Moment fromNow>{created_at}</Moment>
+                    </>
+                )}
             </div>
         </>
     );

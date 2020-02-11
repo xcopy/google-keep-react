@@ -139,13 +139,14 @@ class Notes extends Component {
                                     expanded={true}
                                     addNote={addNote}
                                     updateNote={updateNote}
+                                    pinNote={pinNote}
                                     onSubmit={() => this.setNote()}/>
                             </Modal>
                         )}
 
                         {filter === Filters.ACTIVE && (
                             <Modal.Dialog>
-                                <NoteForm addNote={addNote}/>
+                                <NoteForm addNote={addNote} pinNote={pinNote}/>
                             </Modal.Dialog>
                         )}
 
