@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark as faBookmarked} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-regular-svg-icons';
+import styled from 'styled-components';
+
+const Container = styled.div`
+    float: right;
+    padding: 0 0 10px 10px;
+    background-color: #fff;
+    line-height: 0;
+`;
 
 const Pin = ({note, onClick}) => {
     const {isDeleted, isPinned} = note;
 
     return (
-        <div className={`text-secondary cursor-pointer float-right pl-${isDeleted ? 0 : 2}`}>
+        <Container className={`text-secondary cursor-pointer`}>
             {isDeleted ? '' : (
                 <span
                     title={isPinned ? 'Unpin note' : 'Pin note'}
@@ -16,7 +24,7 @@ const Pin = ({note, onClick}) => {
                     <FontAwesomeIcon icon={isPinned ? faBookmarked : faBookmark}/>
                 </span>
             )}
-        </div>
+        </Container>
     );
 };
 
