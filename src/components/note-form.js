@@ -116,6 +116,10 @@ class NoteForm extends Component {
 
         this.setState(_.cloneDeep(initialState));
 
+        this.inputs.forEach(input => {
+            input.style.removeProperty('height');
+        });
+
         onSubmit && onSubmit();
     }
 
