@@ -82,9 +82,6 @@ class NoteForm extends Component {
         this.inputs.forEach(input => {
             input.removeEventListener('input', inputEventListener);
         });
-
-        // submit form anyway (maybe there are some filled inputs)
-        this.handleSubmit();
     }
 
     handleChange(e) {
