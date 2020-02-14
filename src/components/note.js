@@ -39,7 +39,7 @@ class Note extends Component {
         } = this.props;
 
         const {
-            id, title, content, created_at,
+            id, title, content, createdAt,
             isPinned, isDeleted, isArchived,
             theme
         } = note;
@@ -102,7 +102,7 @@ class Note extends Component {
                     <div className="mb-3 text-muted small">
                         {isDeleted ? 'Note in Trash' : (
                             <>
-                                Created <Moment fromNow>{created_at}</Moment>
+                                Created <Moment fromNow>{createdAt}</Moment>
                             </>
                         )}
                     </div>

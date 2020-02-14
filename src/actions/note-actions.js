@@ -44,7 +44,7 @@ export const getNotes = () => {
 export const addNote = note => {
     note = Object.assign({}, note, {
         id: faker.random.uuid(),
-        created_at: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
         isDeleted: false,
         isArchived: false,
         theme: 'default'
