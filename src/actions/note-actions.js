@@ -46,7 +46,8 @@ export const addNote = note => {
         id: faker.random.uuid(),
         created_at: new Date().toISOString(),
         isDeleted: false,
-        isArchived: false
+        isArchived: false,
+        theme: 'default'
     });
 
     const notes = _getNotes();

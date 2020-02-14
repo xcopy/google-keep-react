@@ -108,7 +108,7 @@ class Notes extends Component {
                     {notes.map(note =>
                         <Col xl={xl} lg={lg} md={md} sm={sm} key={note.id}>
                             <Note
-                                {...{note, deleteNote, archiveNote, deleteNoteForever, pinNote}}
+                                {...{note, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote}}
                                 layout={layout}
                                 onClick={() => this.setNote(note)}/>
                         </Col>

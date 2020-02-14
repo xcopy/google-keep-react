@@ -19,11 +19,14 @@ const ModalBody = styled(ModalHeader)`
 const Textarea = styled.textarea`
     width: 100%;
     border: none;
-    outline: none;
     resize: none;
     margin: 0;
     padding: 0;
     overflow-y: hidden;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 const initialState = {
@@ -156,26 +159,27 @@ class NoteForm extends Component {
         return (
             <>
                 <Form className={expanded ? '' : 'd-none'} onSubmit={this.handleSubmit}>
-                    <ModalHeader className="modal-header border-bottom-0">
+                    <ModalHeader className={`modal-header border-bottom-0 ${note.theme}`}>
                         <Textarea
                             name="title"
                             rows="1"
                             placeholder="Title"
                             value={title}
                             onChange={this.handleChange}
-                            className="h5"/>
+                            className={`h5 ${note.theme}`}/>
 
                         <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
                     </ModalHeader>
-                    <ModalBody className="modal-body py-0">
+                    <ModalBody className={`modal-body py-0 ${note.theme}`}>
                         <Textarea
                             name="content"
                             rows="1"
                             placeholder="Take a note..."
                             value={content}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange}
+                            className={note.theme}/>
                     </ModalBody>
-                    <Modal.Footer className="border-top-0">
+                    <Modal.Footer className={`border-top-0 ${note.theme}`}>
                         <Button type="button" variant="link" onClick={this.setFakeData.bind(this)}>Fake it!</Button>
                         <Button type="submit" variant="secondary">Close</Button>
                     </Modal.Footer>

@@ -8,7 +8,6 @@ import styled from 'styled-components';
 const Container = styled.div`
     float: right;
     padding: 0 0 10px 10px;
-    background-color: #fff;
     line-height: 0;
 `;
 
