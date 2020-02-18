@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Button, Modal, Form} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSquare, faCheckSquare} from '@fortawesome/free-regular-svg-icons';
+import {faPlus, faTimes} from '@fortawesome/free-solid-svg-icons';
 import faker from 'faker';
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -31,9 +34,12 @@ const Textarea = styled.textarea`
 
 const initialState = {
     note: {
+        type: 'TEXT',
         title: '',
         content: '',
-        isPinned: false
+        isPinned: false,
+        theme: 'default',
+        list: []
     },
     expanded: false
 };
@@ -43,12 +49,19 @@ const inputEvent = new Event('input', {
     cancelable: true
 });
 
-const inputEventListener = (e) => {
+const inputEventListener = e => {
     const element = e.target;
 
     element.style.height = 'auto';
     element.style.height = `${element.scrollHeight}px`;
 };
+
+const getListItem = () => ({
+    id: faker.random.uuid(),
+    text: '',
+    isPersisted: false,
+    isCompleted: false
+});
 
 class NoteForm extends Component {
     constructor(props) {
@@ -57,6 +70,7 @@ class NoteForm extends Component {
         this.state = _.cloneDeep(initialState);
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeListItem = this.handleChangeListItem.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -102,16 +116,35 @@ class NoteForm extends Component {
         });
     }
 
+    handleChangeListItem(e, id) {
+        e.persist();
+
+        this.setState(prevState => {
+            const {note} = {...prevState};
+            const {list} = note;
+            const item = list.find(item => item.id === id);
+
+            item.text = e.target.value.trim();
+            item.isPersisted = true;
+
+            return {
+                note,
+                ...prevState
+            };
+        });
+    }
+
     handleSubmit(e) {
         e && e.preventDefault();
 
         const {note} = this.state;
+        const {id, title, content, list} = note;
         const {addNote, updateNote, onSubmit} = this.props;
 
-        if (note.id) {
+        if (id) {
             updateNote(note);
         } else {
-            (note.title || note.content) && addNote(note);
+            (title || content || list.filter(item => item.text !== '').length > 0) && addNote(note);
         }
 
         this.setState(_.cloneDeep(initialState));
@@ -132,13 +165,37 @@ class NoteForm extends Component {
         });
     }
 
+    createList() {
+        this.expandForm();
+
+        this.setState(prevState => {
+            const {note} = {...prevState};
+
+            note.type = 'LIST';
+            note.list.push(getListItem());
+
+            return {
+                note,
+                ...prevState
+            };
+        });
+    }
+
     setFakeData() {
         this.setState(prevState => {
             const {note} = {...prevState};
+            const {type, list} = note;
             const min = 1, max = 3;
 
             note.title = faker.lorem.sentences(faker.random.number({min, max}));
-            note.content = faker.lorem.paragraphs(faker.random.number({min, max}));
+
+            if (type === 'TEXT') {
+                note.content = faker.lorem.paragraphs(faker.random.number({min, max}));
+            } else {
+                list.forEach(item => {
+                    item.text = faker.lorem.sentences();
+                });
+            }
 
             return {
                 ...prevState,
@@ -154,40 +211,79 @@ class NoteForm extends Component {
     render() {
         const {pinNote} = this.props;
         const {note, expanded} = this.state;
-        const {title, content, isPinned} = note;
+        const {type, title, content, theme, list, isPinned} = note;
 
         return (
             <>
                 <Form className={expanded ? '' : 'd-none'} onSubmit={this.handleSubmit}>
-                    <ModalHeader className={`modal-header border-bottom-0 ${note.theme}`}>
+                    <ModalHeader className={`modal-header border-bottom-0 ${theme}`}>
                         <Textarea
                             name="title"
                             rows="1"
                             placeholder="Title"
                             value={title}
                             onChange={this.handleChange}
-                            className={`h5 ${note.theme}`}/>
+                            className={`h5 ${theme}`}/>
 
                         <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
                     </ModalHeader>
-                    <ModalBody className={`modal-body py-0 ${note.theme}`}>
-                        <Textarea
-                            name="content"
-                            rows="1"
-                            placeholder="Take a note..."
-                            value={content}
-                            onChange={this.handleChange}
-                            className={note.theme}/>
+
+                    <ModalBody className={`modal-body py-0 ${type === 'LIST' ? 'px-0' : ''} ${theme}`}>
+                        {type === 'LIST' ? (
+                            <ul className="list-unstyled mb-0 border-top">
+                                {list.map(({id, text, isPersisted, isCompleted}) =>
+                                    <li key={id} className="d-flex justify-content-between py-1 border-bottom">
+                                        <span className="ml-3 mr-2 text-muted cursor-pointer">
+                                            {isPersisted ? (
+                                                <FontAwesomeIcon icon={isCompleted ? faCheckSquare : faSquare}/>
+                                            ) : (
+                                                <FontAwesomeIcon icon={faPlus}/>
+                                            )}
+                                        </span>
+
+                                        <Textarea
+                                            name="list[]"
+                                            rows="1"
+                                            placeholder={isPersisted ? '' : 'List item'}
+                                            value={text}
+                                            onChange={(e) => this.handleChangeListItem(e, id)}
+                                            className={theme}/>
+
+                                        {isPersisted ? (
+                                            <span className="mr-3 ml-2 text-muted cursor-pointer">
+                                                <FontAwesomeIcon icon={faTimes}/>
+                                            </span>
+                                        ) : ''}
+                                    </li>
+                                )}
+                            </ul>
+                        ) : (
+                            <Textarea
+                                name="content"
+                                rows="1"
+                                placeholder="Take a note..."
+                                value={content}
+                                onChange={this.handleChange}
+                                className={theme}/>
+                        )}
                     </ModalBody>
-                    <Modal.Footer className={`border-top-0 ${note.theme}`}>
+
+                    <Modal.Footer className={`border-top-0 ${theme}`}>
                         <Button type="button" variant="link" onClick={this.setFakeData.bind(this)}>Fake it!</Button>
                         <Button type="submit" variant="secondary">Close</Button>
                     </Modal.Footer>
                 </Form>
 
-                <div className={`text-muted cursor-pointer p-3 ${expanded ? 'd-none' : ''}`}
-                    onClick={this.expandForm.bind(this)}>
-                    Take a note&hellip;
+                <div className={`text-muted p-3 ${expanded ? 'd-none' : 'd-flex justify-content-between'}`}>
+                    <span className="cursor-pointer"
+                        onClick={this.expandForm.bind(this)}>
+                        Take a note&hellip;
+                    </span>
+
+                    <span className="cursor-pointer" title="New list"
+                        onClick={this.createList.bind(this)}>
+                        <FontAwesomeIcon icon={faCheckSquare}/>
+                    </span>
                 </div>
             </>
         );

@@ -15,6 +15,7 @@ import {
     faTrash,
     faTrashRestore
 } from '@fortawesome/free-solid-svg-icons';
+import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const LinkSpan = styled.span`
@@ -39,9 +40,9 @@ class Note extends Component {
         } = this.props;
 
         const {
-            id, title, content, createdAt,
+            id, type, title, content, createdAt,
             isPinned, isDeleted, isArchived,
-            theme
+            list, theme
         } = note;
 
         const isActive = !isDeleted && !isArchived;
@@ -75,8 +76,8 @@ class Note extends Component {
                 <Card.Body>
                     <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
 
-                    <div className="cursor-pointer" onClick={onClick}>
-                        {title || content ? (
+                    <div onClick={onClick}>
+                        {title || content || list.length > 0 ? (
                             <>
                                 {title && (
                                     <h5 className="mb-3">
@@ -86,25 +87,38 @@ class Note extends Component {
                                     </h5>
                                 )}
 
-                                {content && (
+                                {type === 'TEXT' && content && (
                                     <div className="mb-3">
                                         <Truncate lines={layout === Layouts.GRID ? 7 : 0}>
                                             {content}
                                         </Truncate>
                                     </div>
                                 )}
+
+                                {type === 'LIST' && list.length > 0 && (
+                                    <ul className="list-unstyled">
+                                        {list.map(({id, text, isCompleted}) =>
+                                            <li key={id} className="d-flex">
+                                                <span className="mr-2 text-muted cursor-pointer">
+                                                    <FontAwesomeIcon icon={isCompleted ? faCheckSquare : faSquare}/>
+                                                </span>
+                                                {text}
+                                            </li>
+                                        )}
+                                    </ul>
+                                )}
                             </>
                         ) : (
                             <h4 className="text-muted mb-3">Empty note</h4>
                         )}
-                    </div>
 
-                    <div className="mb-3 text-muted small">
-                        {isDeleted ? 'Note in Trash' : (
-                            <>
-                                Created <Moment fromNow>{createdAt}</Moment>
-                            </>
-                        )}
+                        <span className="mb-3 text-muted small">
+                            {isDeleted ? 'Note in Trash' : (
+                                <>
+                                    Created <Moment fromNow>{createdAt}</Moment>
+                                </>
+                            )}
+                        </span>
                     </div>
 
                     <div className="text-secondary d-inline-block">

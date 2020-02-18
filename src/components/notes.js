@@ -87,7 +87,7 @@ class Notes extends Component {
 
         const {pinnedNotes, otherNotes, note} = this.state;
 
-        const row = (notes) => {
+        const row = notes => {
             const isGrid = layout === Layouts.GRID;
             const xl = {
                 span: isGrid ? 3 : 8,
@@ -117,7 +117,7 @@ class Notes extends Component {
             );
         };
 
-        const rowTitle = (title) => {
+        const rowTitle = title => {
             return <div className="small text-uppercase font-weight-bold text-secondary my-1">{title}</div>;
         };
 
