@@ -13,6 +13,7 @@ import {
     deleteNote,
     deleteNoteForever,
     pinNote,
+    completeListItem
 } from '../actions/note-actions';
 import FilterIcon from './filter-icon';
 import NoteForm from './note-form';
@@ -82,7 +83,8 @@ class Notes extends Component {
     render() {
         const {
             notes, filter, layout,
-            addNote, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote
+            addNote, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote,
+            completeListItem
         } = this.props;
 
         const {pinnedNotes, otherNotes, note} = this.state;
@@ -108,7 +110,15 @@ class Notes extends Component {
                     {notes.map(note =>
                         <Col xl={xl} lg={lg} md={md} sm={sm} key={note.id}>
                             <Note
-                                {...{note, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote}}
+                                {...{
+                                    note,
+                                    updateNote,
+                                    deleteNote,
+                                    archiveNote,
+                                    deleteNoteForever,
+                                    pinNote,
+                                    completeListItem
+                                }}
                                 layout={layout}
                                 onClick={() => this.setNote(note)}/>
                         </Col>
@@ -137,16 +147,14 @@ class Notes extends Component {
                                 <NoteForm
                                     note={note}
                                     expanded={true}
-                                    addNote={addNote}
-                                    updateNote={updateNote}
-                                    pinNote={pinNote}
+                                    {...{addNote, updateNote, pinNote, completeListItem}}
                                     onSubmit={() => this.setNote()}/>
                             </Modal>
                         )}
 
                         {filter === Filters.ACTIVE && (
                             <Modal.Dialog>
-                                <NoteForm addNote={addNote} pinNote={pinNote}/>
+                                <NoteForm {...{addNote, pinNote, completeListItem}}/>
                             </Modal.Dialog>
                         )}
 
@@ -213,7 +221,8 @@ const mapDispatchToProps = {
     deleteNote,
     archiveNote,
     deleteNoteForever,
-    pinNote
+    pinNote,
+    completeListItem
 };
 
 export default connect(

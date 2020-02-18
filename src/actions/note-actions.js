@@ -31,6 +31,7 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 export const DELETE_NOTE_FOREVER = 'DELETE_NOTE_FOREVER';
 export const ARCHIVE_NOTE = 'ARCHIVE_NOTE';
 export const PIN_NOTE = 'PIN_NOTE';
+export const COMPLETE_LIST_ITEM = 'COMPLETE_LIST_ITEM';
 
 export const getNotes = () => {
     return dispatch => {
@@ -76,7 +77,7 @@ export const updateNote = note => {
     return dispatch => {
         dispatch({
             type: UPDATE_NOTE,
-            notes: notes
+            notes
         });
     };
 };
@@ -138,6 +139,30 @@ export const pinNote = (note, toggle = true) => {
     return dispatch => {
         dispatch({
             type: PIN_NOTE,
+            notes
+        });
+    };
+};
+
+export const completeListItem = (note, id, restore = false) => {
+    const notes = _getNotes();
+
+    const {list} = note;
+    const item = list.find(item => item.id === id);
+
+    item.isCompleted = !restore;
+
+    if (note.id) {
+        const index = notes.findIndex(n => n.id === note.id);
+
+        index !== -1 && notes.splice(index, 1, note);
+
+        _setNotes(notes);
+    }
+
+    return dispatch => {
+        dispatch({
+            type: COMPLETE_LIST_ITEM,
             notes
         });
     };

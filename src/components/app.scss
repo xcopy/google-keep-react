@@ -41,3 +41,8 @@ body {
   &.brown {background-color: #e6c9a8;}
   &.gray {background-color: #e8eaed;}
 }
+
+.list-item-completed {
+  text-decoration: line-through;
+  color: #6c757d;
+}

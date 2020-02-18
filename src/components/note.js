@@ -4,6 +4,7 @@ import {Row, Col, Card, Popover, OverlayTrigger} from 'react-bootstrap';
 import Truncate from 'react-truncate';
 import {Layouts} from '../actions/layout-actions';
 import Pin from './pin';
+import ListItemCheck from './list-item-check';
 import Moment from 'react-moment';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
@@ -15,7 +16,6 @@ import {
     faTrash,
     faTrashRestore
 } from '@fortawesome/free-solid-svg-icons';
-import {faCheckSquare, faSquare} from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const LinkSpan = styled.span`
@@ -24,12 +24,26 @@ const LinkSpan = styled.span`
 `;
 
 class Note extends Component {
-    changeTheme(theme) {
+    constructor(props) {
+        super(props);
+
+        this.handleChangeTheme = this.handleChangeTheme.bind(this);
+        this.handleCheckListItem = this.handleCheckListItem.bind(this);
+    }
+
+    handleChangeTheme(theme) {
         const {note, updateNote} = this.props;
 
         note.theme = theme;
 
         updateNote(note);
+    }
+
+    handleCheckListItem(e, id, restore) {
+        e.stopPropagation();
+
+        const {note, completeListItem} = this.props;
+        completeListItem(note, id, restore);
     }
 
     render() {
@@ -60,7 +74,7 @@ class Note extends Component {
                         <Row key={i} noGutters>
                             {row.map((t, k) =>
                                 <Col key={k}>
-                                    <div className={`theme ${t}`} onClick={() => this.changeTheme(t)}>
+                                    <div className={`theme ${t}`} onClick={() => this.handleChangeTheme(t)}>
                                         {theme && theme === t ? <FontAwesomeIcon icon={faCheck}/> : ''}
                                     </div>
                                 </Col>
@@ -99,10 +113,12 @@ class Note extends Component {
                                     <ul className="list-unstyled">
                                         {list.map(({id, text, isCompleted}) =>
                                             <li key={id} className="d-flex">
-                                                <span className="mr-2 text-muted cursor-pointer">
-                                                    <FontAwesomeIcon icon={isCompleted ? faCheckSquare : faSquare}/>
+                                                <span className="mr-2">
+                                                    <ListItemCheck
+                                                        isCompleted={isCompleted}
+                                                        onClick={(e) => this.handleCheckListItem(e, id, isCompleted)}/>
                                                 </span>
-                                                {text}
+                                                <span className={isCompleted ? 'list-item-completed' : ''}>{text}</span>
                                             </li>
                                         )}
                                     </ul>
@@ -171,6 +187,7 @@ Note.propTypes = {
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
     pinNote: PropTypes.func.isRequired,
+    completeListItem: PropTypes.func.isRequired,
 
     layout: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired

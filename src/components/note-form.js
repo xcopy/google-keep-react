@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Button, Modal, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSquare, faCheckSquare} from '@fortawesome/free-regular-svg-icons';
+import {faCheckSquare} from '@fortawesome/free-regular-svg-icons';
 import {faPlus, faTimes} from '@fortawesome/free-solid-svg-icons';
 import faker from 'faker';
 import _ from 'lodash';
 import styled from 'styled-components';
 import Pin from './pin';
+import ListItemCheck from './list-item-check';
 
 const ModalHeader = styled.div`
     max-height: 200px;
@@ -69,8 +70,9 @@ class NoteForm extends Component {
 
         this.state = _.cloneDeep(initialState);
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleChangeListItem = this.handleChangeListItem.bind(this);
+        this.handleCheckListItem = this.handleCheckListItem.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -101,7 +103,7 @@ class NoteForm extends Component {
         });
     }
 
-    handleChange(e) {
+    handleChangeInput(e) {
         e.persist();
 
         this.setState(prevState => {
@@ -132,6 +134,13 @@ class NoteForm extends Component {
                 ...prevState
             };
         });
+    }
+
+    handleCheckListItem(id, restore) {
+        const {note} = this.state;
+        const {completeListItem} = this.props;
+
+        completeListItem(note, id, restore);
     }
 
     handleSubmit(e) {
@@ -222,7 +231,7 @@ class NoteForm extends Component {
                             rows="1"
                             placeholder="Title"
                             value={title}
-                            onChange={this.handleChange}
+                            onChange={this.handleChangeInput}
                             className={`h5 ${theme}`}/>
 
                         <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
@@ -233,11 +242,13 @@ class NoteForm extends Component {
                             <ul className="list-unstyled mb-0 border-top">
                                 {list.map(({id, text, isPersisted, isCompleted}) =>
                                     <li key={id} className="d-flex justify-content-between py-1 border-bottom">
-                                        <span className="ml-3 mr-2 text-muted cursor-pointer">
+                                        <span className="ml-3 mr-2">
                                             {isPersisted ? (
-                                                <FontAwesomeIcon icon={isCompleted ? faCheckSquare : faSquare}/>
+                                                <ListItemCheck
+                                                    isCompleted={isCompleted}
+                                                    onClick={() => this.handleCheckListItem(id, isCompleted)}/>
                                             ) : (
-                                                <FontAwesomeIcon icon={faPlus}/>
+                                                <FontAwesomeIcon icon={faPlus} className="text-muted"/>
                                             )}
                                         </span>
 
@@ -247,7 +258,7 @@ class NoteForm extends Component {
                                             placeholder={isPersisted ? '' : 'List item'}
                                             value={text}
                                             onChange={(e) => this.handleChangeListItem(e, id)}
-                                            className={theme}/>
+                                            className={`${theme} ${isCompleted ? 'list-item-completed' : ''}`}/>
 
                                         {isPersisted ? (
                                             <span className="mr-3 ml-2 text-muted cursor-pointer">
@@ -263,7 +274,7 @@ class NoteForm extends Component {
                                 rows="1"
                                 placeholder="Take a note..."
                                 value={content}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeInput}
                                 className={theme}/>
                         )}
                     </ModalBody>
@@ -280,7 +291,8 @@ class NoteForm extends Component {
                         Take a note&hellip;
                     </span>
 
-                    <span className="cursor-pointer" title="New list"
+                    <span title="New list"
+                        className="cursor-pointer"
                         onClick={this.createList.bind(this)}>
                         <FontAwesomeIcon icon={faCheckSquare}/>
                     </span>
@@ -296,6 +308,7 @@ NoteForm.propTypes = {
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func,
     pinNote: PropTypes.func,
+    completeListItem: PropTypes.func,
     onSubmit: PropTypes.func
 };
 
