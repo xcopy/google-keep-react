@@ -285,7 +285,9 @@ class NoteForm extends Component {
                     <ModalBody className={`modal-body py-0 ${type === 'LIST' ? 'px-0' : ''} ${theme}`}>
                         {type === 'LIST' ? (
                             <ul className="list-unstyled mb-0 border-top">
-                                {list.map(({id, text, isPersisted, isCompleted}) =>
+                                {list
+                                .sort((a, b) => a.isCompleted - b.isCompleted)
+                                .map(({id, text, isPersisted, isCompleted}) =>
                                     <li key={id} className="d-flex justify-content-between py-1 border-bottom">
                                         <span className="ml-3 mr-2">
                                             {isPersisted ? (

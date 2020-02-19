@@ -106,7 +106,10 @@ class Note extends Component {
 
                                 {type === 'LIST' && list.length > 0 && (
                                     <ul className="list-unstyled">
-                                        {list.map(({id, text, isCompleted}) =>
+                                        {list
+                                        .filter(item => item.isPersisted)
+                                        .sort((a, b) => a.isCompleted - b.isCompleted)
+                                        .map(({id, text, isCompleted}) =>
                                             <li key={id} className="d-flex">
                                                 <span className="mr-2">
                                                     <ListItemCheck isCompleted={isCompleted}/>
