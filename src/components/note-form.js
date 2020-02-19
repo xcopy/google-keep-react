@@ -150,8 +150,20 @@ class NoteForm extends Component {
         });
     }
 
-    handleCheckListItem(id, restore) {
-        // todo
+    handleCheckListItem(id) {
+        this.setState(prevState => {
+            const {note} = {...prevState};
+            const {list} = note;
+            const item = list.find(item => item.id === id);
+            const {isCompleted} = item;
+
+            item.isCompleted = !isCompleted;
+
+            return {
+                note,
+                ...prevState
+            };
+        });
     }
 
     handleSubmit(e) {
@@ -257,7 +269,7 @@ class NoteForm extends Component {
                                             {isPersisted ? (
                                                 <ListItemCheck
                                                     isCompleted={isCompleted}
-                                                    onClick={() => this.handleCheckListItem(id, isCompleted)}/>
+                                                    onClick={() => this.handleCheckListItem(id)}/>
                                             ) : (
                                                 <FontAwesomeIcon icon={faPlus} className="text-muted"/>
                                             )}

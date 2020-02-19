@@ -109,9 +109,7 @@ class Note extends Component {
                                         {list.map(({id, text, isCompleted}) =>
                                             <li key={id} className="d-flex">
                                                 <span className="mr-2">
-                                                    <ListItemCheck
-                                                        isCompleted={isCompleted}
-                                                        onClick={() => {}}/>
+                                                    <ListItemCheck isCompleted={isCompleted}/>
                                                 </span>
                                                 <span className={isCompleted ? 'list-item-completed' : ''}>{text}</span>
                                             </li>
