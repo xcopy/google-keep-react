@@ -144,6 +144,8 @@ class NoteForm extends Component {
             item.text = e.target.value.trim();
             item.isPersisted = true;
 
+            list.find(item => !item.isPersisted) || list.push(getListItem());
+
             return {
                 note,
                 ...prevState
@@ -173,7 +175,7 @@ class NoteForm extends Component {
             const {list} = note;
             const index = list.findIndex(item => item.id === id);
 
-            index !== 1 && list.splice(index, 1);
+            index !== -1 && list.splice(index, 1);
 
             list.length === 0 && list.push(getListItem());
 
@@ -243,9 +245,11 @@ class NoteForm extends Component {
                 note.content = faker.lorem.paragraphs(faker.random.number({min, max}));
             } else {
                 list.forEach(item => {
-                    item.text = faker.lorem.sentences();
+                    item.text = faker.lorem.sentence();
                     item.isPersisted = true;
                 });
+
+                list.find(item => !item.isPersisted) || list.push(getListItem());
             }
 
             return {
