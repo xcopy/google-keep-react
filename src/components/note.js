@@ -28,7 +28,6 @@ class Note extends Component {
         super(props);
 
         this.handleChangeTheme = this.handleChangeTheme.bind(this);
-        this.handleCheckListItem = this.handleCheckListItem.bind(this);
     }
 
     handleChangeTheme(theme) {
@@ -39,17 +38,10 @@ class Note extends Component {
         updateNote(note);
     }
 
-    handleCheckListItem(e, id, restore) {
-        e.stopPropagation();
-
-        const {note, completeListItem} = this.props;
-        completeListItem(note, id, restore);
-    }
-
     render() {
         const {
             note,
-            deleteNote, archiveNote, deleteNoteForever, pinNote,
+            updateNote, deleteNote, archiveNote, deleteNoteForever,
             layout, onClick
         } = this.props;
 
@@ -88,7 +80,10 @@ class Note extends Component {
         return (
             <Card className={`mb-3 note ${theme}`}>
                 <Card.Body>
-                    <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
+                    <Pin note={note} onClick={() => {
+                        note.isPinned = !isPinned;
+                        updateNote(note);
+                    }}/>
 
                     <div onClick={onClick}>
                         {title || content || list.length > 0 ? (
@@ -116,7 +111,7 @@ class Note extends Component {
                                                 <span className="mr-2">
                                                     <ListItemCheck
                                                         isCompleted={isCompleted}
-                                                        onClick={(e) => this.handleCheckListItem(e, id, isCompleted)}/>
+                                                        onClick={() => {}}/>
                                                 </span>
                                                 <span className={isCompleted ? 'list-item-completed' : ''}>{text}</span>
                                             </li>
@@ -186,8 +181,6 @@ Note.propTypes = {
     deleteNote: PropTypes.func.isRequired,
     archiveNote: PropTypes.func.isRequired,
     deleteNoteForever: PropTypes.func.isRequired,
-    pinNote: PropTypes.func.isRequired,
-    completeListItem: PropTypes.func.isRequired,
 
     layout: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired

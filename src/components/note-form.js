@@ -73,7 +73,6 @@ class NoteForm extends Component {
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleChangeListItem = this.handleChangeListItem.bind(this);
         this.handleCheckListItem = this.handleCheckListItem.bind(this);
-        this.handleDeleteListItem = this.handleDeleteListItem.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -101,6 +100,20 @@ class NoteForm extends Component {
     componentWillUnmount() {
         this.inputs.forEach(input => {
             input.removeEventListener('input', inputEventListener);
+        });
+    }
+
+    handlePinNote() {
+        this.setState(prevState => {
+            const {note} = {...prevState};
+            const {isPinned} = note;
+
+            note.isPinned = !isPinned;
+
+            return {
+                note,
+                ...prevState
+            };
         });
     }
 
@@ -138,17 +151,7 @@ class NoteForm extends Component {
     }
 
     handleCheckListItem(id, restore) {
-        const {note} = this.state;
-        const {completeListItem} = this.props;
-
-        completeListItem(note, id, restore);
-    }
-
-    handleDeleteListItem(id) {
-        const {note} = this.state;
-        const {deleteListItem} = this.props;
-
-        deleteListItem(note, id);
+        // todo
     }
 
     handleSubmit(e) {
@@ -227,9 +230,8 @@ class NoteForm extends Component {
     }
 
     render() {
-        const {pinNote} = this.props;
         const {note, expanded} = this.state;
-        const {type, title, content, theme, list, isPinned} = note;
+        const {type, title, content, theme, list} = note;
 
         return (
             <>
@@ -243,7 +245,7 @@ class NoteForm extends Component {
                             onChange={this.handleChangeInput}
                             className={`h5 ${theme}`}/>
 
-                        <Pin note={note} onClick={() => pinNote(note, !isPinned)}/>
+                        <Pin note={note} onClick={this.handlePinNote.bind(this)}/>
                     </ModalHeader>
 
                     <ModalBody className={`modal-body py-0 ${type === 'LIST' ? 'px-0' : ''} ${theme}`}>
@@ -272,7 +274,7 @@ class NoteForm extends Component {
                                         {isPersisted ? (
                                             <span
                                                 className="mr-3 ml-2 text-muted cursor-pointer"
-                                                onClick={() => this.handleDeleteListItem(id)}>
+                                                onClick={() => {}}>
                                                 <FontAwesomeIcon icon={faTimes}/>
                                             </span>
                                         ) : ''}
@@ -318,8 +320,6 @@ NoteForm.propTypes = {
     expanded: PropTypes.bool,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func,
-    pinNote: PropTypes.func,
-    completeListItem: PropTypes.func,
     onSubmit: PropTypes.func
 };
 
