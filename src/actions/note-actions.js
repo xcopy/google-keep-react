@@ -67,9 +67,13 @@ export const addNote = note => {
 
 export const updateNote = note => {
     const notes = _getNotes();
-    const index = notes.findIndex(n => n.id === note.id);
 
-    note.isPinned && (note.isArchived = false);
+    if (note.isPinned) {
+        note.isArchived = false;
+        note.isDeleted = false;
+    }
+
+    const index = notes.findIndex(n => n.id === note.id);
 
     index !== -1 && notes.splice(index, 1, note);
 
