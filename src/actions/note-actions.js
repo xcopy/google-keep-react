@@ -32,6 +32,7 @@ export const DELETE_NOTE_FOREVER = 'DELETE_NOTE_FOREVER';
 export const ARCHIVE_NOTE = 'ARCHIVE_NOTE';
 export const PIN_NOTE = 'PIN_NOTE';
 export const COMPLETE_LIST_ITEM = 'COMPLETE_LIST_ITEM';
+export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM';
 
 export const getNotes = () => {
     return dispatch => {
@@ -166,4 +167,10 @@ export const completeListItem = (note, id, restore = false) => {
             notes
         });
     };
+};
+
+export const deleteListItem = (note, id) => {
+    note.list = note.list.filter(item => item.id !== id);
+
+    return updateNote(note);
 };

@@ -73,6 +73,7 @@ class NoteForm extends Component {
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleChangeListItem = this.handleChangeListItem.bind(this);
         this.handleCheckListItem = this.handleCheckListItem.bind(this);
+        this.handleDeleteListItem = this.handleDeleteListItem.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -143,6 +144,13 @@ class NoteForm extends Component {
         completeListItem(note, id, restore);
     }
 
+    handleDeleteListItem(id) {
+        const {note} = this.state;
+        const {deleteListItem} = this.props;
+
+        deleteListItem(note, id);
+    }
+
     handleSubmit(e) {
         e && e.preventDefault();
 
@@ -203,6 +211,7 @@ class NoteForm extends Component {
             } else {
                 list.forEach(item => {
                     item.text = faker.lorem.sentences();
+                    item.isPersisted = true;
                 });
             }
 
@@ -261,7 +270,9 @@ class NoteForm extends Component {
                                             className={`${theme} ${isCompleted ? 'list-item-completed' : ''}`}/>
 
                                         {isPersisted ? (
-                                            <span className="mr-3 ml-2 text-muted cursor-pointer">
+                                            <span
+                                                className="mr-3 ml-2 text-muted cursor-pointer"
+                                                onClick={() => this.handleDeleteListItem(id)}>
                                                 <FontAwesomeIcon icon={faTimes}/>
                                             </span>
                                         ) : ''}

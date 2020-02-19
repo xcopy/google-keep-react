@@ -128,13 +128,13 @@ class Note extends Component {
                             <h4 className="text-muted mb-3">Empty note</h4>
                         )}
 
-                        <span className="mb-3 text-muted small">
+                        <div className="mb-3 text-muted small">
                             {isDeleted ? 'Note in Trash' : (
                                 <>
                                     Created <Moment fromNow>{createdAt}</Moment>
                                 </>
                             )}
-                        </span>
+                        </div>
                     </div>
 
                     <div className="text-secondary d-inline-block">

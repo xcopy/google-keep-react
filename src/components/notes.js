@@ -13,7 +13,8 @@ import {
     deleteNote,
     deleteNoteForever,
     pinNote,
-    completeListItem
+    completeListItem,
+    deleteListItem
 } from '../actions/note-actions';
 import FilterIcon from './filter-icon';
 import NoteForm from './note-form';
@@ -84,7 +85,7 @@ class Notes extends Component {
         const {
             notes, filter, layout,
             addNote, updateNote, deleteNote, archiveNote, deleteNoteForever, pinNote,
-            completeListItem
+            completeListItem, deleteListItem
         } = this.props;
 
         const {pinnedNotes, otherNotes, note} = this.state;
@@ -117,7 +118,8 @@ class Notes extends Component {
                                     archiveNote,
                                     deleteNoteForever,
                                     pinNote,
-                                    completeListItem
+                                    completeListItem,
+                                    deleteListItem
                                 }}
                                 layout={layout}
                                 onClick={() => this.setNote(note)}/>
@@ -147,14 +149,14 @@ class Notes extends Component {
                                 <NoteForm
                                     note={note}
                                     expanded={true}
-                                    {...{addNote, updateNote, pinNote, completeListItem}}
+                                    {...{addNote, updateNote, pinNote, completeListItem, deleteListItem}}
                                     onSubmit={() => this.setNote()}/>
                             </Modal>
                         )}
 
                         {filter === Filters.ACTIVE && (
                             <Modal.Dialog>
-                                <NoteForm {...{addNote, pinNote, completeListItem}}/>
+                                <NoteForm {...{addNote, pinNote, completeListItem, deleteListItem}}/>
                             </Modal.Dialog>
                         )}
 
@@ -222,7 +224,8 @@ const mapDispatchToProps = {
     archiveNote,
     deleteNoteForever,
     pinNote,
-    completeListItem
+    completeListItem,
+    deleteListItem
 };
 
 export default connect(
