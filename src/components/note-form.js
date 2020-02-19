@@ -73,6 +73,7 @@ class NoteForm extends Component {
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleChangeListItem = this.handleChangeListItem.bind(this);
         this.handleCheckListItem = this.handleCheckListItem.bind(this);
+        this.handleDeleteListItem = this.handleDeleteListItem.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -158,6 +159,23 @@ class NoteForm extends Component {
             const {isCompleted} = item;
 
             item.isCompleted = !isCompleted;
+
+            return {
+                note,
+                ...prevState
+            };
+        });
+    }
+
+    handleDeleteListItem(id) {
+        this.setState(prevState => {
+            const {note} = {...prevState};
+            const {list} = note;
+            const index = list.findIndex(item => item.id === id);
+
+            index !== 1 && list.splice(index, 1);
+
+            list.length === 0 && list.push(getListItem());
 
             return {
                 note,
@@ -286,7 +304,7 @@ class NoteForm extends Component {
                                         {isPersisted ? (
                                             <span
                                                 className="mr-3 ml-2 text-muted cursor-pointer"
-                                                onClick={() => {}}>
+                                                onClick={() => this.handleDeleteListItem(id)}>
                                                 <FontAwesomeIcon icon={faTimes}/>
                                             </span>
                                         ) : ''}
